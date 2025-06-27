@@ -1,0 +1,8 @@
+streamlit
+Authlib
+PyYAML
+streamlit_extras
+great-tables
+streamlit-antd-components
+pandas
+streamlit-aggrid
