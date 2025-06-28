@@ -10,17 +10,15 @@ body {
 	gap: 1px;
 	padding: 1px;
 	overflow-x: scroll;
-	background-color: rgba(127, 127, 127, 0.85);
 }
 
 .cell {
 	min-width: 2.5rem;
 	aspect-ratio : 1 / 1;
-	padding: 4%;
+	padding: 5%;
 	align-items: center;
 
 	display: flex;
-	background-color: white;
 	transition: background-color 0.2s ease;
 	user-select: none;
 	white-space: pre-wrap;
@@ -31,13 +29,25 @@ body {
 	font-weight: 700;
 	line-height: 1;
 }
-.red-card {
-	color: red;
-}
-
 .free-space {
 	font-size: 2.2cqh;
 	line-height: 1.2;
 	justify-content: center;
 	text-align: center;
+}
+
+.light-bg {
+	background-color: rgba(127, 127, 127, 0.1);
+}
+.dark-bg {
+	background-color: rgba(127, 127, 127, 0.3);
+}
+.light-text {
+	color: black;
+}
+.dark-text {
+	color: rgb(240,240,240);
+}
+.red-text {
+	color: red;
 }

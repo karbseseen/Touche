@@ -1,14 +1,6 @@
 from pathlib import Path
-
 import streamlit as st
-import streamlit.components.v1 as components
-import streamlit_antd_components as sac
-import st_aggrid
-from streamlit_extras.grid import grid as ste_grid
-from streamlit_extras.great_tables import great_tables
-from great_tables import GT
-import pandas
-
+from streamlit_theme import st_theme
 import field
 
 
@@ -21,7 +13,7 @@ cell_values = Path('field.csv').read_text() 	\
 	.replace('\n', ',')			\
 	.replace(' ', '\n')			\
 	.split(',')
-value = field.touche_field(cell_values)
+value = field.touche_field(cell_values, st_theme()['base'] == 'dark')
 st.text(value)
 
 
