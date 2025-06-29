@@ -15,13 +15,8 @@ function get_text(card_index) {
 		Deck.suits[card_index / Deck.numbers.length >> 0];
 }
 
-function onRender(event) {
-	if (window.rendered) return
-	else window.rendered = true
-
-
-	const { field_data, pressed, deck, selected_card, is_dark, dot_color } = event.detail.args;
-	const bg_class = is_dark ? 'dark-bg' : 'light-bg';
+function initRender(event) {
+	const { field_data, dot_color } = event.detail.args;
 
 
 	const field = document.getElementById('touche-field');
@@ -31,9 +26,9 @@ function onRender(event) {
 		cell.textContent = text;
 
 		cell.classList.add('cell');
-		if (value == Field.FreeSpace) cell.classList.add('free-cell', bg_class, 'black-text');
+		if (value == Field.FreeSpace) cell.classList.add('free-cell', 'light-bg', 'light-text');
 		else if (text.length > 0)
-			cell.classList.add('card-cell', bg_class, value < Deck.redUntilIndex ? 'red-text' : 'black-text');
+			cell.classList.add('card-cell', 'light-bg', value < Deck.redUntilIndex ? 'red-text' : 'light-text');
 		else cell.classList.add('empty-cell');
 
 		if (text.length > 0) cell.onclick = () =>
@@ -42,30 +37,70 @@ function onRender(event) {
 		field.appendChild(cell);
 	})
 
-	const cells = document.getElementsByClassName('cell');
-	pressed.forEach(index => {
-		const cell = cells[Math.abs(index)];
-		const dot = document.createElement('span');
-		dot.classList.add(index > 0 ? 'dot' : 'final-dot');
-	});
 
 	const cards = document.getElementById('deck').children;
-	deck.forEach((value, index) => {
-		const card = cards[index];
-
-		const children = cards[index].children;
-		for (let child_index = 0; child_index < children.length; child_index++) {
-			const child = children[child_index];
-			child.textContent = get_text(value);
-			child.classList.add('white-bg', value < Deck.redUntilIndex ? 'red-text' : 'black-text');
+	const card_click = (card) => () => {
+		const make_selected = card.classList.contains('unselected-card');
+		for (let index = 0; index < cards.length; index++) {
+			cards[index].classList.remove('selected-card');
+			cards[index].classList.add('unselected-card');
 		}
-
-		card.onclick = () => Streamlit.setComponentValue({ card: index });
-	});
+		if (make_selected) {
+			card.classList.remove('unselected-card');
+			card.classList.add('selected-card');
+		}
+	}
+	for (let index = 0; index < cards.length; index++) {
+		const card = cards[index];
+		card.classList.add('unselected-card');
+		card.onclick = card_click(card);
+	}
 
 
 	const { width, height } = document.body.getBoundingClientRect();
 	Streamlit.setFrameHeight(height)
+}
+
+function updateRender(event) {
+	const { pressed, deck, is_dark } = event.detail.args;
+
+	const old_bg_class = is_dark ? 'light-bg' : 'dark-bg';
+	const new_bg_class = is_dark ? 'dark-bg' : 'light-bg';
+	const bg_elements = document.getElementsByClassName(old_bg_class);
+	while (bg_elements.length > 0) {
+		bg_elements[0].classList.add(new_bg_class);
+		bg_elements[0].classList.remove(old_bg_class);
+	}
+
+	const old_text_class = is_dark ? 'light-text' : 'dark-text';
+	const new_text_class = is_dark ? 'dark-text' : 'light-text';
+	const text_elements = document.getElementsByClassName(old_text_class);
+	while (text_elements.length > 0) {
+		text_elements[0].classList.add(new_text_class);
+		text_elements[0].classList.remove(old_text_class);
+	}
+
+
+	const cards = document.getElementById('deck').children;
+	deck.forEach((value, index) => {
+		const card = cards[index];
+		const children = cards[index].children;
+		for (let child_index = 0; child_index < children.length; child_index++) {
+			const child = children[child_index];
+			child.textContent = get_text(value);
+			child.classList.remove('red-text', 'black-text');
+			child.classList.add(value < Deck.redUntilIndex ? 'red-text' : 'black-text');
+		}
+	});
+
+}
+
+function onRender(event) {
+	if (!window.rendered) {
+		initRender(event);
+		window.rendered = true;
+	}
+	updateRender(event);
 }
 
 

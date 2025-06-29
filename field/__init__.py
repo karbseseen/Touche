@@ -1,4 +1,7 @@
 from pathlib import Path
+from random import random
+
+import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_theme import st_theme
 from deck import Deck
@@ -27,14 +30,23 @@ __func = components.declare_component(
 	path=str((Path(__file__).parent / 'frontend').absolute())
 )
 
-def touche_field():
+
+
+def touche_field(pressed: list[int], deck: Deck):
+
+	def callback():
+		dict = st.session_state.get('touche-field')
+		if not dict:
+			return
+
 	return __func(
+		on_change=callback,
+		key='touche-field',
+
 		field_data=__field_data,
-		pressed=[],
-		deck=[0,1,30,52,52],
-		selected_card=1,
+		pressed=pressed,
+		deck=deck.value,
 		can_press=True,
 		is_dark=st_theme()['base'] == 'dark',
 		dot_color=0,
-		default=666,
 	)

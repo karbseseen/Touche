@@ -1,12 +1,9 @@
 import time
 from enum import Enum
-from pathlib import Path
 import streamlit as st
-from streamlit_theme import st_theme
 import field
 from deck import Deck
 from xorshift import XorShift
-
 
 
 class Type(Enum):
@@ -105,20 +102,14 @@ def request_page(request: Request):
 
 def game_page(game: Game):
 	st.set_page_config('Touche', '🎲')
-	#st.button('cancel', on_click=game.cancel)
+	st.button('cancel', on_click=game.cancel)
 
-	value = field.touche_field()
-	st.text(type(value))
+	value = field.touche_field(game.pressed, game.deck1)
+	st.write(value)
 
 
 def page():
 	st.sidebar.button('Выйти (в окно)', on_click=st.logout)
-
-	st.write(Request.all)
-	st.write(Game.all)
-
-	game_page(Game(Request(st.user.email, st.user.email, Type.T)))
-	return
 
 	request: Request = Request.all.get(st.user.email)
 	game: Game = Game.all.get(st.user.email)

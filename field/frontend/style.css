@@ -13,33 +13,36 @@ body {
 }
 
 .light-bg {
-	background-color: rgba(127, 127, 127, 0.1);
+	background-color: rgba(127,127,127, 0.1);
 }
 .light-bg:hover {
-	background-color: rgba(127, 127, 127, 0.3);
+	background-color: rgba(127,127,127, 0.3);
 }
 .dark-bg {
-	background-color: rgba(127, 127, 127, 0.3);
+	background-color: rgba(200,200,200, 0.1);
 }
 .dark-bg:hover {
-	background-color: rgba(127, 127, 127, 0.45);
+	background-color: rgba(200,200,200, 0.3);
 }
 .light-bg, .dark-bg {
-	transition: 0.9s;
+	transition: 0.6s;
 }
 .light-bg:hover, .dark-bg:hover {
 	transform: scale(0.85);
 	transition: 0.3s;
 }
-.white-bg {
-	background-color: white;
-}
 
-.black-text {
+.light-text {
 	color: black;
+}
+.dark-text {
+	color: rgb(245,245,245);
 }
 .red-text {
 	color: red;
+}
+.black-text {
+	color: black;
 }
 
 
@@ -69,6 +72,7 @@ body {
 .dot, .final-dot {
 	align-self: center;
 	border-radius: 50%;
+	color: aqua;
 }
 .dot {
 	width: 46%;
@@ -85,16 +89,26 @@ body {
 	display: flex;
 	gap: 10px;
 	justify-content: center;
-	margin: 2rem 0;
+	padding: 2rem 0;
 }
 
-.card {
+.unselected-card, .selected-card {
 	display: flex;
 	position: relative;
 	height: 8rem;
 	aspect-ratio : 2 / 3;
+	background-color: white;
+	color: black;
 	border: 1px solid black;
 	border-radius: 7px;
+	transition: 0.4s;
+}
+.unselected-card {
+	border: 1px solid black;
+}
+.selected-card {
+	border: 3px solid black;
+	transform: scale(1.2);
 }
 .card-text {
 	padding: 4%;
