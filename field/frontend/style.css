@@ -12,42 +12,57 @@ body {
 	overflow-x: scroll;
 }
 
-.cell {
-	min-width: 2.5rem;
-	aspect-ratio : 1 / 1;
-	padding: 5%;
-	align-items: center;
 
-	display: flex;
-	transition: background-color 0.2s ease;
+.light-black, .light-red {
+	background-color: rgba(127, 127, 127, 0.1);
+}
+.dark-black, .dark-red {
+	background-color: rgba(127, 127, 127, 0.3);
+}
+.light-black, .dark-black {
+	color: black;
+}
+.light-red, .dark-red {
+	color: red;
+}
+
+
+.card-cell, .free-cell, .empty-cell, .card {
+	padding: 1%;
 	user-select: none;
 	white-space: pre-wrap;
+	text-align: center;
+}
+.card-cell, .free-cell, .empty-cell {
+	min-width: 3rem;
+	aspect-ratio : 1 / 1;
+	display: flex;
+	align-items: center;
+}
+.card-cell, .card {
+	font-size: 1.3rem;
+	font-weight: 600;
+	line-height: 1;
+}
+.free-cell {
+	font-size: 1rem;
+	line-height: 1.4;
+	justify-content: center;
+}
+
+
+#deck {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	margin: 15px 0;
 }
 
 .card {
-	font-size: 2.5cqh;
-	font-weight: 700;
-	line-height: 1;
-}
-.free-space {
-	font-size: 2.2cqh;
-	line-height: 1.2;
-	justify-content: center;
-	text-align: center;
-}
-
-.light-bg {
-	background-color: rgba(127, 127, 127, 0.1);
-}
-.dark-bg {
-	background-color: rgba(127, 127, 127, 0.3);
-}
-.light-text {
-	color: black;
-}
-.dark-text {
-	color: rgb(240,240,240);
-}
-.red-text {
-	color: red;
+	display: flex;
+	height: 8rem;
+	aspect-ratio : 2 / 3;
+	border: 1px solid black;
+	border-radius: 7px;
 }

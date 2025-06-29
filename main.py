@@ -1,13 +1,12 @@
 import streamlit as st
+import game
 
 
-#if not st.user.is_logged_in:
-#	pages = [st.Page('auth.py', title='Кто ты?', icon='🙎🏻‍♂️')]
-#else:
-pages = [
-	st.Page('game.py', title='Touche', icon='🎲'),
-	st.Page('settings.py', title='Настройки', icon='⚙️')
-]
-st.sidebar.button('Выйти (в окно)', on_click=st.logout)
+if not st.user.is_logged_in:
+	st.set_page_config('Кто ты?', '🙎🏻‍♂️')
+	st.subheader('Залогинься')
+	if st.button("Через Google", icon=":material/login:", type='primary'):
+		st.login()
+else:
+	game.page()
 
-st.navigation(pages).run()
