@@ -12,35 +12,50 @@ body {
 	overflow-x: scroll;
 }
 
-
-.light-black, .light-red {
+.light-bg {
 	background-color: rgba(127, 127, 127, 0.1);
 }
-.dark-black, .dark-red {
+.light-bg:hover {
 	background-color: rgba(127, 127, 127, 0.3);
 }
-.light-black, .dark-black {
+.dark-bg {
+	background-color: rgba(127, 127, 127, 0.3);
+}
+.dark-bg:hover {
+	background-color: rgba(127, 127, 127, 0.45);
+}
+.light-bg, .dark-bg {
+	transition: 0.9s;
+}
+.light-bg:hover, .dark-bg:hover {
+	transform: scale(0.85);
+	transition: 0.3s;
+}
+.white-bg {
+	background-color: white;
+}
+
+.black-text {
 	color: black;
 }
-.light-red, .dark-red {
+.red-text {
 	color: red;
 }
 
 
-.card-cell, .free-cell, .empty-cell, .card {
-	padding: 1%;
+.cell, .card-text  {
 	user-select: none;
 	white-space: pre-wrap;
 	text-align: center;
 }
-.card-cell, .free-cell, .empty-cell {
+.cell {
+	padding: 1%;
 	min-width: 3rem;
 	aspect-ratio : 1 / 1;
 	display: flex;
-	align-items: center;
 }
-.card-cell, .card {
-	font-size: 1.3rem;
+.card-cell, .card-text {
+	font-size: 1.25rem;
 	font-weight: 600;
 	line-height: 1;
 }
@@ -48,6 +63,21 @@ body {
 	font-size: 1rem;
 	line-height: 1.4;
 	justify-content: center;
+	align-items: center;
+}
+
+.dot, .final-dot {
+	align-self: center;
+	border-radius: 50%;
+}
+.dot {
+	width: 46%;
+	height: 46%;
+}
+.final-dot {
+	width: 44%;
+	height: 44%;
+	border: solid black 3px;
 }
 
 
@@ -55,14 +85,24 @@ body {
 	display: flex;
 	gap: 10px;
 	justify-content: center;
-	align-items: center;
-	margin: 15px 0;
+	margin: 2rem 0;
 }
 
 .card {
 	display: flex;
+	position: relative;
 	height: 8rem;
 	aspect-ratio : 2 / 3;
 	border: 1px solid black;
 	border-radius: 7px;
+}
+.card-text {
+	padding: 4%;
+	position: absolute;
+	background-color: transparent;
+}
+.card-text-rotated {
+	bottom: 0px;
+	right: 0px;
+	transform: rotate(180deg);
 }

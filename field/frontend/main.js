@@ -20,36 +20,49 @@ function onRender(event) {
 	else window.rendered = true
 
 
-	const { values, deck, is_dark } = event.detail.args;
-	const dark_prefix = is_dark ? 'dark-' : 'light-';
-	const black_class = dark_prefix + 'black';
-	const red_class = dark_prefix + 'red';
+	const { field_data, pressed, deck, selected_card, is_dark, dot_color } = event.detail.args;
+	const bg_class = is_dark ? 'dark-bg' : 'light-bg';
 
 
 	const field = document.getElementById('touche-field');
-	values.forEach((value, index) => {
+	field_data.forEach((value, index) => {
 		const cell = document.createElement('div');
 		const text = get_text(value);
 		cell.textContent = text;
 
-		if (value == Field.FreeSpace) cell.classList.add('free-cell', black_class);
+		cell.classList.add('cell');
+		if (value == Field.FreeSpace) cell.classList.add('free-cell', bg_class, 'black-text');
 		else if (text.length > 0)
-			cell.classList.add('card-cell', value < Deck.redUntilIndex ? red_class : black_class);
+			cell.classList.add('card-cell', bg_class, value < Deck.redUntilIndex ? 'red-text' : 'black-text');
 		else cell.classList.add('empty-cell');
 
 		if (text.length > 0) cell.onclick = () =>
-			Streamlit.setComponentValue({ x: index % 12, y: index / 12 >> 0 })
+			Streamlit.setComponentValue({ x: index % 12, y: index / 12 >> 0 });
 
 		field.appendChild(cell);
 	})
 
+	const cells = document.getElementsByClassName('cell');
+	pressed.forEach(index => {
+		const cell = cells[Math.abs(index)];
+		const dot = document.createElement('span');
+		dot.classList.add(index > 0 ? 'dot' : 'final-dot');
+	});
 
-	const cards = document.getElementsByClassName('card');
+	const cards = document.getElementById('deck').children;
 	deck.forEach((value, index) => {
 		const card = cards[index];
-		card.textContent = get_text(value);
-		card.classList.add(value < Deck.redUntilIndex ? red_class : black_class);
-	})
+
+		const children = cards[index].children;
+		for (let child_index = 0; child_index < children.length; child_index++) {
+			const child = children[child_index];
+			child.textContent = get_text(value);
+			child.classList.add('white-bg', value < Deck.redUntilIndex ? 'red-text' : 'black-text');
+		}
+
+		card.onclick = () => Streamlit.setComponentValue({ card: index });
+	});
+
 
 	const { width, height } = document.body.getBoundingClientRect();
 	Streamlit.setFrameHeight(height)

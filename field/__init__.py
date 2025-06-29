@@ -19,7 +19,7 @@ def __get_values():
 	values = Path('field.csv').read_text().replace('\n', ',').split(',')
 	return [parse(value) for value in values]
 
-values = __get_values()
+__field_data = __get_values()
 
 
 __func = components.declare_component(
@@ -29,8 +29,12 @@ __func = components.declare_component(
 
 def touche_field():
 	return __func(
-		values=values,
+		field_data=__field_data,
+		pressed=[],
 		deck=[0,1,30,52,52],
+		selected_card=1,
+		can_press=True,
 		is_dark=st_theme()['base'] == 'dark',
+		dot_color=0,
 		default=666,
 	)

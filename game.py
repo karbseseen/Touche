@@ -46,6 +46,8 @@ class Game:
 		self.deck1 = Deck(self.random)
 		self.deck2 = Deck(self.random)
 
+		self.pressed: list[int] = []
+
 		request.cancel()
 		Game.all[self.player1] = self
 		Game.all[self.player2] = self
@@ -106,7 +108,7 @@ def game_page(game: Game):
 	#st.button('cancel', on_click=game.cancel)
 
 	value = field.touche_field()
-	st.text(value)
+	st.text(type(value))
 
 
 def page():

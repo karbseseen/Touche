@@ -10,3 +10,4 @@ class Deck:
 
 	def __init__(self, random: XorShift):
 		self.value = [Deck.__random_card(random) for _ in range(5)]
+		self.selected_index = None
