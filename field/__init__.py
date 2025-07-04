@@ -1,13 +1,11 @@
 from pathlib import Path
-from random import random
 
 import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_theme import st_theme
-from deck import Deck
 
 
-def __get_values():
+def _get_values():
 	suits = ['♥', '♦', '♣', '♠']
 	numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 	numbers = [num.ljust(2) for num in numbers]
@@ -19,10 +17,10 @@ def __get_values():
 		except ValueError:
 			return 53 if text == 'free space' else -1
 
-	values = Path('field.csv').read_text().replace('\n', ',').split(',')
+	values = Path('field/field.csv').read_text().replace('\n', ',').split(',')
 	return [parse(value) for value in values]
 
-__field_data = __get_values()
+_field_data = _get_values()
 
 
 __func = components.declare_component(
@@ -32,21 +30,23 @@ __func = components.declare_component(
 
 
 
-def touche_field(pressed: list[int], deck: Deck):
+def touche_field(pressed: list[int], deck: list[int]):
 
 	def callback():
 		dict = st.session_state.get('touche-field')
 		if not dict:
 			return
 
+	theme = st_theme()
+
 	return __func(
 		on_change=callback,
 		key='touche-field',
 
-		field_data=__field_data,
+		field_data=_field_data,
 		pressed=pressed,
-		deck=deck.value,
+		deck=deck,
 		can_press=True,
-		is_dark=st_theme()['base'] == 'dark',
+		is_dark=theme['base'] == 'dark' if theme else False,
 		dot_color=0,
 	)
