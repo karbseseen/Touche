@@ -1,7 +1,7 @@
 import streamlit as st
 
+import field_event
 from field import Field
-from field_callback import field_callback
 from structs.game import Type, Request, Game, Base as GameBase
 from structs.user import User
 
@@ -77,9 +77,11 @@ def game_page(user: User, game: Game):
 	Field.component(
 		user.id,
 		game,
-		lambda event: field_callback(user.id, game, event),
+		lambda event: field_event.callback(user.id, game, event),
 	)
-	st.button('Отмена хода')
+
+	if len(game.cell_history) > 0:
+		st.button('Отмена хода', on_click=lambda: field_event.undo(game))
 	st.button('cancel', on_click=game.cancel)
 
 

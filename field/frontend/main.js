@@ -108,8 +108,10 @@ function updateRender(event) {
 	const field = document.getElementById('touche-field');
 	forEachChild(field, (cell, index) => {
 		const used_cell = used_cells[index];
-		const found_dot = undefined;
-		forEachChild(cell, child => { if (child.tagName == 'span') dot = child; });
+		var found_dot = undefined;
+		forEachChild(cell, child => { if (child.tagName == 'SPAN') found_dot = child; });
+
+
 
 		if (used_cell) {
 			const dot = found_dot ? found_dot : document.createElement('span');
@@ -118,7 +120,7 @@ function updateRender(event) {
 			dot.classList.remove(used_cell.final ? 'dot' : 'final-dot');
 			if (!found_dot) cell.appendChild(dot);
 		}
-		else if (found_dot) found_dot.remove;
+		else if (found_dot) found_dot.remove();
 	});
 
 	if (State.history_size == history_size && Field.clicked_index != -1) {
