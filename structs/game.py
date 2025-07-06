@@ -55,12 +55,13 @@ class Base(ABC):
 class TypeValue:
 	symbol: str
 	text: str
+	final_count: int
 
 class Type(Enum):
-	Square = TypeValue('■', 'Квадраты')
-	Line = TypeValue('/', 'Линии')
-	Cross = TypeValue('⨉', 'Кресты')
-	T = TypeValue('T', 'Букву Т')
+	Square = TypeValue('■', 'Квадраты', 4)
+	Line = TypeValue('/', 'Линии', 15)
+	Cross = TypeValue('⨉', 'Кресты', 15)
+	T = TypeValue('T', 'Букву Т', 15)
 
 	_ignore_ = ['strings']
 	strings: list[str] = []
@@ -89,29 +90,32 @@ class Request(Base):
 class Game(Base):
 	def __init__(self, request: Request, player2: UserInfo):
 		self.type = request.type
-		self.player1 = request.user
-		self.player2 = player2
-		self.deck1 = Deck()
-		self.deck2 = Deck()
+		self.players = [request.user, player2]
+		self.decks = [Deck(), Deck()]
+		self.final_count = [0, 0]
+		self.winner_index = -1
+		self.lead_index = random.randrange(2)
 		self.cell_by_index: dict[int, UsedCell] = {}
 		self.cell_history: list[SelectCell | FinalCell] = []
 		self.counter = 0
-		if random.choice([True, False]):
-			self.player1, self.player2 = self.player2, self.player1
 		super().__init__()
 
 	def user_deck(self, user_id: int):
-		if user_id == self.player1.id: return self.deck1
-		if user_id == self.player2.id: return self.deck2
+		if user_id == self.players[0].id: return self.decks[0]
+		if user_id == self.players[1].id: return self.decks[1]
 		raise ValueError(f'User with id {user_id} does not belong to this game')
 
+	def cancel(self):
+		super().cancel()
+		self.counter += 1
+
 	@property
-	def lead(self):
-		for cell in reversed(self.cell_history):
-			if isinstance(cell, SelectCell):
-				return self.player2 if cell.user_id == self.player1.id else self.player1
-		return self.player1
+	def lead(self): return self.players[self.lead_index]
+
 	@property
-	def ids(self): return [self.player1.id, self.player2.id]
+	def ended(self): return self.winner_index in range(2)
+
+	@property
+	def ids(self): return [player.id for player in self.players]
 	@property
 	def life_time(self): return 60 * 60 * 24

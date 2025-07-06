@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_extras.let_it_rain import rain
 
 import field_event
 from field import Field
@@ -70,10 +71,16 @@ def game_page(user: User, game: Game):
 
 	st.set_page_config('Touche', '🎲')
 
-	st.markdown(
-		'<span style="font-size:2rem">Ходит </span>' + game.lead.markdown_str(2),
-		unsafe_allow_html=True,
-	)
+
+	if game.ended:
+		is_winner = game.players[game.winner_index].id == user.id
+		rain('🎉' if is_winner else '💩')
+		st.header('Вы чемпион!' if is_winner else 'Вы продули :(')
+	else:
+		st.markdown(
+			'<span style="font-size:2rem">Ходит </span>' + game.lead.markdown_str(2),
+			unsafe_allow_html=True,
+		)
 	Field.component(
 		user.id,
 		game,
@@ -82,8 +89,7 @@ def game_page(user: User, game: Game):
 
 	if len(game.cell_history) > 0:
 		st.button('Отмена хода', on_click=lambda: field_event.undo(game))
-	st.button('cancel', on_click=game.cancel)
-
+	st.button('Уйти', on_click=game.cancel)
 
 
 def page(user: User):

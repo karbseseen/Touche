@@ -66,10 +66,10 @@ class Field:
 
 			field_data=cls._values,
 			used_cells={ index: asdict(cell) for index, cell in game.cell_by_index.items() },
-			user_color={ game.player1.id: game.player1.color, game.player2.id: game.player2.color },
+			user_color={ player.id: player.color for player in game.players },
 			history_size=len(game.cell_history),
 			cards=game.user_deck(user_id).data,
-			clickable=user_id == game.lead.id,
+			clickable=user_id == game.lead.id and not game.ended,
 			is_dark=theme['base'] == 'dark' if theme else False,
 			counter=game.counter,
 		)

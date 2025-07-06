@@ -5,6 +5,7 @@ from structs.game import Game
 
 
 def callback(user_id: int, game: Game, event: field.Event):
+	if game.ended: return
 	game.counter += 1
 	used_cell = game.cell_by_index.get(event.cell_index)
 
@@ -12,6 +13,11 @@ def callback(user_id: int, game: Game, event: field.Event):
 		if used_cell and used_cell.user_id == user_id and not used_cell.final:
 			game.cell_by_index[event.cell_index].final = True
 			game.cell_history.append(FinalCell(event.cell_index))
+
+			game.final_count[game.lead_index] += 1
+			if game.final_count[game.lead_index] == game.type.value.final_count:
+				game.winner_index = 0 if game.players[0].id == user_id else 1
+
 	elif user_id == game.lead.id:
 		deck = game.user_deck(user_id)
 
@@ -33,6 +39,7 @@ def callback(user_id: int, game: Game, event: field.Event):
 
 			game.cell_by_index[event.cell_index] = UsedCell(user_id, False)
 			game.cell_history.append(SelectCell(event.cell_index, user_id, prev_id, event.card_index, card_value))
+			game.lead_index = 1 - game.lead_index
 			deck.play_card(event.card_index)
 
 
