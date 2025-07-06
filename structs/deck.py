@@ -1,17 +1,24 @@
 import random
 
 
-DeckList = list[int]
-
 class Deck:
 	total_cards = 53 #including Joker
 	Joker = 52
 	FreeSpace = 53
 
 	@classmethod
-	def random_card(cls, counter: int):
-		return min(cls.total_cards - 1, random.randrange(cls.total_cards + 2)) | (counter << 8)
+	def _random_card(cls):
+		return min(cls.total_cards - 1, random.randrange(cls.total_cards + 2))
 
-	@classmethod
-	def create(cls) -> DeckList:
-		return [cls.random_card(0) for _ in range(5)]
+	def __init__(self):
+		self.data = [self._random_card() for _ in range(5)]
+
+	def __getitem__(self, index: int):
+		return self.data[index] & 0xff
+
+	def __setitem__(self, index: int, value: int):
+		counter = (self.data[index] & 0xff00) + 0x100
+		self.data[index] = value | counter
+
+	def play_card(self, index: int):
+		self[index] = self._random_card()

@@ -7,7 +7,7 @@ from enum import Enum
 from time import time
 
 from .cell import UsedCell, SelectCell, FinalCell
-from .deck import Deck, DeckList
+from .deck import Deck
 from .user import UserInfo
 
 
@@ -91,11 +91,10 @@ class Game(Base):
 		self.type = request.type
 		self.player1 = request.user
 		self.player2 = player2
-		self.deck1 = Deck.create()
-		self.deck2 = Deck.create()
+		self.deck1 = Deck()
+		self.deck2 = Deck()
 		self.cell_by_index: dict[int, UsedCell] = {}
 		self.cell_history: list[SelectCell | FinalCell] = []
-		self.invalid_cell = -1
 		self.counter = 0
 		if random.choice([True, False]):
 			self.player1, self.player2 = self.player2, self.player1
@@ -107,7 +106,11 @@ class Game(Base):
 		raise ValueError(f'User with id {user_id} does not belong to this game')
 
 	@property
-	def lead(self): return self.player2 if self.counter & 1 else self.player1
+	def lead(self):
+		for cell in reversed(self.cell_history):
+			if isinstance(cell, SelectCell):
+				return self.player2 if cell.user_id == self.player1.id else self.player1
+		return self.player1
 	@property
 	def ids(self): return [self.player1.id, self.player2.id]
 	@property

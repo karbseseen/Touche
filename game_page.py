@@ -71,7 +71,7 @@ def game_page(user: User, game: Game):
 	st.set_page_config('Touche', '🎲')
 
 	st.markdown(
-		'<span style="font-size:1.5rem">Ходит </span>' + game.lead.markdown_str(1.5),
+		'<span style="font-size:2rem">Ходит </span>' + game.lead.markdown_str(2),
 		unsafe_allow_html=True,
 	)
 	Field.component(
@@ -79,6 +79,7 @@ def game_page(user: User, game: Game):
 		game,
 		lambda event: field_callback(user.id, game, event),
 	)
+	st.button('Отмена хода')
 	st.button('cancel', on_click=game.cancel)
 
 

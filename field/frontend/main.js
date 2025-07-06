@@ -9,7 +9,10 @@ const Deck = {
 	value: [-1,-1,-1,-1,-1],
 	selected_index: -1,
 };
-const Field = { FreeSpace: Deck.size };
+const Field = {
+	FreeSpace: Deck.size,
+	clicked_index: -1,
+};
 
 function get_text(card_index) {
 	if (card_index < 0 || card_index > Deck.size) return '';
@@ -23,6 +26,7 @@ const State = {
 	clickable: false,
 	is_dark: false,
 	counter: 0,
+	history_size: -1,
 };
 
 
@@ -67,9 +71,10 @@ function initRender(event) {
 		}
 
 		if (text.length > 0) cell.onclick = () => {
-			if (!State.clickable) return;
-			Field.clicked_index = index;
-			Streamlit.setComponentValue({ cell_index: index, card_index: Deck.selected_index, counter: State.counter++ });
+			if (State.clickable || Deck.selected_index == 5) {
+				Field.clicked_index = index;
+				Streamlit.setComponentValue({ cell_index: index, card_index: Deck.selected_index, counter: State.counter++ });
+			}
 		}
 
 		field.appendChild(cell);
@@ -77,14 +82,17 @@ function initRender(event) {
 
 
 	const deck = document.getElementById('deck');
-	const card_holder_click = click_index => () => {
-		if (Deck.selected_index != -1)
+	const card_crown_click = click_index => () => {
+		if (Deck.selected_index == 5) deck.children[5].classList.remove('selected-crown');
+		else if (Deck.selected_index != -1)
 			forEachChild(deck.children[Deck.selected_index], card => card.classList.remove('selected-card'));
-		if (click_index != Deck.selected_index)
-			forEachChild(deck.children[click_index], card => card.classList.add('selected-card'));
+		if (click_index != Deck.selected_index) {
+			if (click_index == 5) deck.children[5].classList.add('selected-crown');
+			else forEachChild(deck.children[click_index], card => card.classList.add('selected-card'));
+		}
 		Deck.selected_index = click_index != Deck.selected_index ? click_index : -1;
 	}
-	forEachChild(deck, (card_holder, index) => card_holder.onclick = card_holder_click(index));
+	forEachChild(deck, (card_crown, index) => card_crown.onclick = card_crown_click(index));
 
 
 	setTimeout(() => {
@@ -94,35 +102,32 @@ function initRender(event) {
 }
 
 function updateRender(event) {
-	const { used_cells, invalid_cell_index, user_color, cards, clickable, is_dark } = event.detail.args;
+	const { used_cells, user_color, history_size, cards, clickable, is_dark } = event.detail.args;
 
 
-	const cells = document.getElementById('touche-field').children;
-	used_cells.forEach(used_cell => {
-		const cell = cells[used_cell.index];
+	const field = document.getElementById('touche-field');
+	forEachChild(field, (cell, index) => {
+		const used_cell = used_cells[index];
+		const found_dot = undefined;
+		forEachChild(cell, child => { if (child.tagName == 'span') dot = child; });
 
-		const old_dots = []
-		forEachChild(cell, child => {
-			if (child.classList.contains('dot') || child.classList.contains('final-dot'))
-				old_dots.push(child);
-		});
-		old_dots.forEach(dot => dot.remove());
-
-		/*const old_dots = cell.children;
-		while (old_dots.length > 0)
-			old_dots[0].remove();*/
-
-		const new_dot = document.createElement('span');
-		new_dot.classList.add(used_cell.final ? 'final-dot' : 'dot');
-		new_dot.style.backgroundColor = user_color[used_cell.user_id];
-		cell.appendChild(new_dot);
+		if (used_cell) {
+			const dot = found_dot ? found_dot : document.createElement('span');
+			dot.style.backgroundColor = user_color[used_cell.user_id];
+			dot.classList.add(used_cell.final ? 'final-dot' : 'dot');
+			dot.classList.remove(used_cell.final ? 'dot' : 'final-dot');
+			if (!found_dot) cell.appendChild(dot);
+		}
+		else if (found_dot) found_dot.remove;
 	});
 
-	if (invalid_cell_index != -1) {
-		const invalid_cell = cells[invalid_cell_index];
+	if (State.history_size == history_size && Field.clicked_index != -1) {
+		const invalid_cell = field.children[Field.clicked_index];
 		invalid_cell.classList.add('invalid-cell');
 		setTimeout(() => invalid_cell.classList.remove('invalid-cell'), 1000);
+		Field.clicked_index = -1;
 	}
+	else State.history_size = history_size;
 
 
 	const deck = document.getElementById('deck');

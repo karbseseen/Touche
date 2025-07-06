@@ -6,8 +6,6 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_theme import st_theme
 
-from structs.cell import UsedCell
-from structs.deck import DeckList
 from structs.game import Game
 
 
@@ -16,7 +14,6 @@ class Event:
 	cell_index: int
 	cell_value: int
 	card_index: int
-	card_value: int | None
 
 
 _component = components.declare_component(
@@ -54,16 +51,13 @@ class Field:
 		game: Game,
 		callback: Callable[[Event], None],
 	):
-		cards = game.user_deck(user_id)
-
 		def on_change():
 			map: dict[str, Any] = st.session_state.get('touche-field')
 			if not isinstance(map, dict): return
 			cell_index: int = map.get('cell_index')
 			card_index: int = map.get('card_index')
 			if not isinstance(cell_index, int) or not isinstance(card_index, int): return
-			card_value = cards[card_index] if card_index in range(5) else None
-			callback(Event(cell_index, cls._values[cell_index], card_index, card_value))
+			callback(Event(cell_index, cls._values[cell_index], card_index))
 
 		theme = st_theme()
 		return _component(
@@ -71,10 +65,11 @@ class Field:
 			on_change=on_change,
 
 			field_data=cls._values,
-			used_cells=[ { 'index': index, **asdict(cell) } for index, cell in game.cell_by_index.items() ],
-			invalid_cell_index=game.invalid_cell,
+			used_cells={ index: asdict(cell) for index, cell in game.cell_by_index.items() },
 			user_color={ game.player1.id: game.player1.color, game.player2.id: game.player2.color },
-			cards=cards,
+			history_size=len(game.cell_history),
+			cards=game.user_deck(user_id).data,
 			clickable=user_id == game.lead.id,
 			is_dark=theme['base'] == 'dark' if theme else False,
+			counter=game.counter,
 		)
