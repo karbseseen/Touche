@@ -58,7 +58,7 @@ class TypeValue:
 	final_count: int
 
 class Type(Enum):
-	Square = TypeValue('■', 'Квадраты', 4)
+	Square = TypeValue('■', 'Квадраты', 16)
 	Line = TypeValue('/', 'Линии', 15)
 	Cross = TypeValue('⨉', 'Кресты', 15)
 	T = TypeValue('T', 'Букву Т', 15)
