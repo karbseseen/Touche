@@ -6,16 +6,22 @@ from dataclasses import dataclass
 from enum import Enum
 from time import time
 
-from .deck import Deck
+from .cell import UsedCell, SelectCell, FinalCell
+from .deck import Deck, DeckList
 from .user import UserInfo
 
 
 class Base(ABC):
 	by_user: dict[int, Base] = {}
+	_dict_version = 0
 	_last_cleared = 0
 
 	@classmethod
-	def clear_old(cls):
+	@property
+	def dict_version(cls): return cls._dict_version
+
+	@classmethod
+	def _clear_old(cls):
 		now = time()
 		if cls._last_cleared + 60 < now:
 			cls.by_user = { id: base for id, base in cls.by_user.items() if base.lives_until > now }
@@ -29,6 +35,8 @@ class Base(ABC):
 	def ids(self) -> list[int]: pass
 
 	def __init__(self):
+		Base._dict_version += 1
+		Base._clear_old()
 		self.lives_until = 0
 		self.refresh()
 		for id in self.ids:
@@ -38,6 +46,7 @@ class Base(ABC):
 		self.lives_until = int(time()) + self.life_time
 
 	def cancel(self):
+		Base._dict_version += 1
 		for id in self.ids:
 			self.by_user.pop(id, None)
 
@@ -82,12 +91,23 @@ class Game(Base):
 		self.type = request.type
 		self.player1 = request.user
 		self.player2 = player2
-		self.deck1 = Deck()
-		self.deck2 = Deck()
-		self.pressed: list[int] = []
+		self.deck1 = Deck.create()
+		self.deck2 = Deck.create()
+		self.cell_by_index: dict[int, UsedCell] = {}
+		self.cell_history: list[SelectCell | FinalCell] = []
+		self.invalid_cell = -1
+		self.counter = 0
 		if random.choice([True, False]):
 			self.player1, self.player2 = self.player2, self.player1
 		super().__init__()
+
+	def user_deck(self, user_id: int):
+		if user_id == self.player1.id: return self.deck1
+		if user_id == self.player2.id: return self.deck2
+		raise ValueError(f'User with id {user_id} does not belong to this game')
+
+	@property
+	def lead(self): return self.player2 if self.counter & 1 else self.player1
 	@property
 	def ids(self): return [self.player1.id, self.player2.id]
 	@property

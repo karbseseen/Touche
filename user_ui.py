@@ -18,7 +18,7 @@ def user_ui(user: User):
 
 	if not user.name:
 		st.header('Ты кто такой?')
-		user_name = st.text_input('Как вас зовут?', max_chars=32, placeholder='Гриб Картошкин')
+		user_name = st.text_input('Как вас зовут?', max_chars=32, placeholder='Мечислав Гриб')
 		if user_name:
 			st.button('Сохранить', on_click=lambda: _update_name(user_name))
 	else:
@@ -27,7 +27,7 @@ def user_ui(user: User):
 			'Как вас зовут?',
 			user.name,
 			max_chars=32,
-			placeholder='Гриб Картошкин',
+			placeholder='Мечислав Гриб',
 			key='user_name',
 			on_change=_update_name,
 		)

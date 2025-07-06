@@ -13,23 +13,16 @@ body {
 }
 
 .light-bg {
-	background-color: rgba(127,127,127, 0.1);
+	background-color: rgba(242,242,242);
 }
 .light-bg:hover {
-	background-color: rgba(127,127,127, 0.3);
+	background-color: rgba(220,220,220);
 }
 .dark-bg {
-	background-color: rgba(200,200,200, 0.1);
+	background-color: rgba(34,36,38);
 }
 .dark-bg:hover {
-	background-color: rgba(200,200,200, 0.3);
-}
-.light-bg, .dark-bg {
-	transition: 0.6s;
-}
-.light-bg:hover, .dark-bg:hover {
-	transform: scale(0.85);
-	transition: 0.3s;
+	background-color: rgba(68,72,76);
 }
 
 .light-text {
@@ -46,33 +39,49 @@ body {
 }
 
 
-.cell, .card-text  {
+.cell {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.8rem;
+	aspect-ratio : 1 / 1;
+	transition: 0.6s;
+}
+.cell:hover {
+	transform: scale(1.1);
+	transition: 0.2s;
+}
+.invalid-cell {
+	animation: invalid-cell 1s;
+}
+
+.cell-card-text, .cell-free-text, .card-text, .card-text-rotated  {
+	font-family: clarendon-text-pro, serif;
 	user-select: none;
 	white-space: pre-wrap;
 	text-align: center;
 }
-.cell {
-	padding: 1%;
-	min-width: 3rem;
-	aspect-ratio : 1 / 1;
-	display: flex;
-}
-.card-cell, .card-text {
+.cell-card-text, .card-text, .card-text-rotated  {
 	font-size: 1.25rem;
-	font-weight: 600;
+	font-weight: 800;
 	line-height: 1;
 }
-.free-cell {
+.cell-card-text {
+	position: absolute;
+	left: 1%;
+	top: 1%;
+}
+.cell-free-text {
+	position: absolute;
+	width: 100%;
 	font-size: 1rem;
-	line-height: 1.4;
-	justify-content: center;
-	align-items: center;
+	line-height: 1.3;
 }
 
 .dot, .final-dot {
-	align-self: center;
+	position: absolute;
 	border-radius: 50%;
-	color: aqua;
 }
 .dot {
 	width: 46%;
@@ -92,7 +101,7 @@ body {
 	padding: 2rem 0;
 }
 
-.unselected-card, .selected-card {
+.card {
 	display: flex;
 	position: relative;
 	height: 8rem;
@@ -102,21 +111,47 @@ body {
 	border: 1px solid black;
 	border-radius: 7px;
 	transition: 0.4s;
-}
-.unselected-card {
-	border: 1px solid black;
+	animation: card-in 0.25s;
 }
 .selected-card {
-	border: 3px solid black;
-	transform: scale(1.2);
+	border-width: 3px !important;
+	transition: 0.15s;
+	transform: scale(1.15);
 }
-.card-text {
-	padding: 4%;
+.played-card {
+	border-width: 3px !important;
+	transform: scale(1.4) translateY(-20rem);
+	opacity: 0;
+}
+
+.card-text, .card-text-rotated {
 	position: absolute;
+	padding: 4%;
 	background-color: transparent;
 }
 .card-text-rotated {
 	bottom: 0px;
 	right: 0px;
 	transform: rotate(180deg);
+}
+
+
+@keyframes invalid-cell {
+	0%, 100% {
+		box-shadow: none;
+	}
+	50% {
+		box-shadow: inset 0 0 0 1000px rgba(255, 0, 0, 0.5);
+	}
+}
+
+@keyframes card-in {
+	from {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
