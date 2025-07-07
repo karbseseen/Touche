@@ -28,12 +28,12 @@ def callback(user_id: int, game: Game, event: field.Event):
 		if event.card_index not in range(5): return
 		card_value = deck[event.card_index]
 
+		def basic_valid(): return event.cell_value == card_value and not used_cell
+		def free_valid(): return event.cell_value == Deck.FreeSpace and not used_cell
 		def joker_valid(): return card_value == Deck.Joker and	\
 			(not used_cell or (used_cell.user_id != user_id and not used_cell.final))
-		def free_valid(): return event.cell_value == Deck.FreeSpace and not used_cell
-		def basic_valid(): return event.cell_value == card_value and not used_cell
 
-		if joker_valid() or free_valid() or basic_valid():
+		if basic_valid() or free_valid() or joker_valid():
 			prev_used = game.cell_by_index.get(event.cell_index)
 			prev_id = prev_used.user_id if prev_used else None
 

@@ -1,10 +1,10 @@
 import streamlit as st
 from streamlit_extras.let_it_rain import rain
 
-import field_event
 from field import Field
 from structs.game import Type, Request, Game, Base as GameBase
 from structs.user import User
+from . import field_event
 
 
 def _init_page(user: User):
@@ -74,7 +74,7 @@ def _game_page(user: User, game: Game):
 
 	if game.ended:
 		is_winner = game.players[game.winner_index].id == user.id
-		rain('🎉' if is_winner else '💩')
+		rain('🏆' if is_winner else '💩')
 		st.header('Вы чемпион!' if is_winner else 'Вы продули :(')
 	else:
 		st.markdown(
