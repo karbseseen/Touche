@@ -1,4 +1,21 @@
+from __future__ import annotations
 import random
+
+
+class Source:
+	def __init__(self, extra_joker_num = 4):
+		self.extra_joker_num = extra_joker_num
+		self.remaining_cards: list[int] = []
+
+	def random_card(self):
+		if len(self.remaining_cards) == 0:
+			self.remaining_cards = [i for i in range(Deck.total_cards)] * 2 + [Deck.Joker] * self.extra_joker_num
+		index = random.randrange(len(self.remaining_cards))
+		result = self.remaining_cards[index]
+		last = self.remaining_cards.pop()
+		if index != len(self.remaining_cards):
+			self.remaining_cards[index] = last
+		return result
 
 
 class Deck:
@@ -6,12 +23,9 @@ class Deck:
 	Joker = 52
 	FreeSpace = 53
 
-	@classmethod
-	def _random_card(cls):
-		return min(cls.total_cards - 1, random.randrange(cls.total_cards + 2))
-
-	def __init__(self):
-		self.data = [self._random_card() for _ in range(5)]
+	def __init__(self, source: Source):
+		self.source = source
+		self.data = [source.random_card() for _ in range(5)]
 
 	def __getitem__(self, index: int):
 		return self.data[index] & 0xff
@@ -21,4 +35,4 @@ class Deck:
 		self.data[index] = value | counter
 
 	def play_card(self, index: int):
-		self[index] = self._random_card()
+		self[index] = self.source.random_card()

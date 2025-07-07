@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from enum import Enum
 from time import time
 
+from . import deck
 from .cell import UsedCell, SelectCell, FinalCell
 from .deck import Deck
 from .user import UserInfo
@@ -89,9 +90,10 @@ class Request(Base):
 
 class Game(Base):
 	def __init__(self, request: Request, player2: UserInfo):
+		deck_source = deck.Source()
 		self.type = request.type
 		self.players = [request.user, player2]
-		self.decks = [Deck(), Deck()]
+		self.decks = [Deck(deck_source), Deck(deck_source)]
 		self.final_count = [0, 0]
 		self.winner_index = -1
 		self.lead_index = random.randrange(2)
