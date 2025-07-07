@@ -12,7 +12,7 @@ class UserInfo:
 	def __init__(self, id: int, name: str, color: str):
 		self.id = id
 		self.name = name
-		self.color = color
+		self.color = color if color else User.default_color
 		self.by_id[id] = self
 	def markdown_str(self, size: float = 1.0):
 		return f'<span style="color:{self.color}; font-size:{size}rem"> {self.name}</span>'
@@ -20,6 +20,7 @@ class UserInfo:
 
 class User:
 	_last_id = int(time() * 1000)
+	default_color = '#023434'
 
 	@classmethod
 	def safe_create(cls):

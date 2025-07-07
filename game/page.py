@@ -7,7 +7,7 @@ from structs.game import Type, Request, Game, Base as GameBase
 from structs.user import User
 
 
-def init_page(user: User):
+def _init_page(user: User):
 
 	base_version = GameBase.dict_version
 	@st.fragment(run_every=2)
@@ -38,7 +38,7 @@ def init_page(user: User):
 			col3.button('Погнали', on_click=lambda: Game(request, user.info))
 
 
-def waiting_page(user: User, request: Request):
+def _waiting_page(user: User, request: Request):
 
 	@st.fragment(run_every=2)
 	def check_updates():
@@ -60,7 +60,7 @@ def waiting_page(user: User, request: Request):
 	st.button('Я передумал', on_click=request.cancel)
 
 
-def game_page(user: User, game: Game):
+def _game_page(user: User, game: Game):
 
 	counter = game.counter
 	@st.fragment(run_every=2)
@@ -96,8 +96,8 @@ def page(user: User):
 	base = GameBase.by_user.get(user.id)
 
 	if isinstance(base, Game):
-		game_page(user, base)
+		_game_page(user, base)
 	elif isinstance(base, Request):
-		waiting_page(user, base)
+		_waiting_page(user, base)
 	else:
-		init_page(user)
+		_init_page(user)
