@@ -3,13 +3,13 @@ import random
 
 
 class Source:
-	def __init__(self, extra_joker_num = 4):
-		self.extra_joker_num = extra_joker_num
+	def __init__(self, joker_num = 6):
+		self.joker_num = joker_num
 		self.remaining_cards: list[int] = []
 
 	def random_card(self):
 		if len(self.remaining_cards) == 0:
-			self.remaining_cards = [i for i in range(Deck.total_cards)] * 2 + [Deck.Joker] * self.extra_joker_num
+			self.remaining_cards = [i for i in range(Deck.total_cards - 1)] * 2 + [Deck.Joker] * self.joker_num
 		index = random.randrange(len(self.remaining_cards))
 		result = self.remaining_cards[index]
 		last = self.remaining_cards.pop()

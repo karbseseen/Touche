@@ -1,10 +1,18 @@
 from dataclasses import dataclass
+from enum import Enum, auto
 
+
+class UsedType(Enum):
+	Normal = 'n'
+	SemiFinal = 'sf'
+	Final = 'f'
 
 @dataclass
 class UsedCell:
 	user_id: int
-	final: bool
+	type: UsedType
+	def to_dict(self):
+		return { 'user_id': self.user_id, 'type': self.type.value }
 
 @dataclass
 class SelectCell:
@@ -15,5 +23,6 @@ class SelectCell:
 	card_value: int
 
 @dataclass
-class FinalCell:
-	index: int
+class FinalFigure:
+	indices: list[int]
+	user_id: int

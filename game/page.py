@@ -2,7 +2,8 @@ import streamlit as st
 from streamlit_extras.let_it_rain import rain
 
 from field import Field
-from structs.game import Type, Request, Game, Base as GameBase
+from structs.game import Request, Game, Base as GameBase
+from structs.game_type import GameType
 from structs.user import User
 from . import field_event
 
@@ -21,10 +22,10 @@ def _init_page(user: User):
 
 	with create_col.container(border=True):
 		st.header('Создать')
-		game_type = st.selectbox('Собираем:', Type.strings, None, placeholder='Хуи')
+		game_type = st.selectbox('Собираем:', [type.value.text for type in GameType], None, placeholder='Хуи')
 		if game_type:
 			st.button('Найти жертву', icon='⚔️',
-				on_click=lambda: Request(user.info, Type.from_str(game_type)))
+				on_click=lambda: Request(user.info, GameType.from_str(game_type)))
 
 	with find_col.container(border=True):
 		requests = [base for base in GameBase.by_user.values() if isinstance(base, Request)]
@@ -63,7 +64,7 @@ def _waiting_page(user: User, request: Request):
 def _game_page(user: User, game: Game):
 
 	counter = game.counter
-	@st.fragment(run_every=2)
+	@st.fragment(run_every=1.5)
 	def check_updates():
 		if counter != game.counter:
 			st.rerun()
@@ -71,24 +72,29 @@ def _game_page(user: User, game: Game):
 
 	st.set_page_config('Touche', '🎲')
 
-
-	if game.ended:
-		is_winner = game.players[game.winner_index].id == user.id
+	winner = game.winner
+	if winner:
+		is_winner = winner.info.id == user.id
 		rain('🏆' if is_winner else '💩')
 		st.header('Вы чемпион!' if is_winner else 'Вы продули :(')
 	else:
 		st.markdown(
-			'<span style="font-size:2rem">Ходит </span>' + game.lead.markdown_str(2),
+			'<span style="font-size:2rem">Ходит </span>' + game.lead.info.markdown_str(2),
 			unsafe_allow_html=True,
 		)
+
+	player = game.get_player(user.id)
+	if player.figures.is_invalid:
+		st.error('Поздравляю, вы собрали какую-то хрень. Вам остается только отменять ходы и пробовать заново.')
+
 	Field.component(
 		user.id,
 		game,
 		lambda event: field_event.callback(user.id, game, event),
 	)
 
-	if len(game.cell_history) > 0:
-		st.button('Отмена хода', on_click=lambda: field_event.undo(game))
+	if field_event.can_undo(user.id, game):
+		st.button('Отмена хода', on_click=lambda: field_event.undo(user.id, game))
 	st.button('Уйти', on_click=game.cancel)
 
 

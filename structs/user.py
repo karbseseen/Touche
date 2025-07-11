@@ -6,9 +6,9 @@ from weakref import WeakValueDictionary
 from streamlit_cookies_controller import CookieController
 
 
-class UserInfo:
+class Info:
 	test = -1
-	by_id: WeakValueDictionary[int, UserInfo] = WeakValueDictionary()
+	by_id: WeakValueDictionary[int, Info] = WeakValueDictionary()
 	def __init__(self, id: int, name: str, color: str):
 		self.id = id
 		self.name = name
@@ -36,9 +36,9 @@ class User:
 			self._id = User._last_id
 			self._cookies.set('user_id', self._id, expires=self._expires)
 
-		self._info = UserInfo.by_id.get(self._id)
+		self._info = Info.by_id.get(self._id)
 		if not self._info:
-			self._info = UserInfo(self._id, self._cookies.get('user_name'), self._cookies.get('user_color'))
+			self._info = Info(self._id, self._cookies.get('user_name'), self._cookies.get('user_color'))
 
 	@property
 	def _expires(self): return datetime.now() + timedelta(365)

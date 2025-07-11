@@ -80,20 +80,24 @@ body {
 	line-height: 1.2;
 }
 
-.dot, .final-dot {
-	position: absolute;
+.dot, .semi-final-dot, .final-dot {
 	border-radius: 50%;
+}
+.semi-final-dot, .final-dot {
+	width: 40%;
+	height: 40%;
+	animation: dot-final 0.25s;
 }
 .dot {
 	width: 42%;
 	height: 42%;
 	animation: dot-in 0.2s;
 }
+.semi-final-dot {
+	border: dashed black 3px;
+}
 .final-dot {
-	width: 40%;
-	height: 40%;
 	border: solid black 3px;
-	animation: dot-final 0.2s;
 }
 
 
@@ -198,6 +202,6 @@ body {
 		transform: scale(1);
 	}
 	50% {
-		transform: scale(1.2);
+		transform: scale(1.5);
 	}
 }

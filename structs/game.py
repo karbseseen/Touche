@@ -2,14 +2,21 @@ from __future__ import annotations
 
 import random
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from enum import Enum
 from time import time
 
-from . import deck
-from .cell import UsedCell, SelectCell, FinalCell
+from . import deck, figure, user
+from .cell import UsedCell, SelectCell, FinalFigure
 from .deck import Deck
-from .user import UserInfo
+from .game_type import GameType
+
+
+class Player:
+	def __init__(self, info: user.Info, deck_source: deck.Source, figure_types: list[figure.Type]):
+		self.info = info
+		self.opponent: Player = None
+		self.deck = Deck(deck_source)
+		self.figures = figure.SemiFigure(*figure_types)
+		self.final_figure_count = 0
 
 
 class Base(ABC):
@@ -52,32 +59,8 @@ class Base(ABC):
 			self.by_user.pop(id, None)
 
 
-@dataclass
-class TypeValue:
-	symbol: str
-	text: str
-	final_count: int
-
-class Type(Enum):
-	Square = TypeValue('■', 'Квадраты', 16)
-	Line = TypeValue('/', 'Линии', 15)
-	Cross = TypeValue('⨉', 'Кресты', 15)
-	T = TypeValue('T', 'Букву Т', 15)
-
-	_ignore_ = ['strings']
-	strings: list[str] = []
-
-	@classmethod
-	def from_str(cls, value: str):
-		for type in cls:
-			if type.value.text == value:
-				return type
-		return None
-Type.strings = [type.value.text for type in Type]
-
-
 class Request(Base):
-	def __init__(self, user: UserInfo, type: Type):
+	def __init__(self, user: user.Info, type: GameType):
 		self.user = user
 		self.type = type
 		super().__init__()
@@ -89,22 +72,20 @@ class Request(Base):
 
 
 class Game(Base):
-	def __init__(self, request: Request, player2: UserInfo):
+	def __init__(self, request: Request, player2: user.Info):
 		deck_source = deck.Source()
-		self.type = request.type
-		self.players = [request.user, player2]
-		self.decks = [Deck(deck_source), Deck(deck_source)]
-		self.final_count = [0, 0]
-		self.winner_index = -1
+		self.players = [Player(info, deck_source, request.type.value.figure_types) for info in [request.user, player2]]
+		self.players[0].opponent, self.players[1].opponent = self.players[1], self.players[0]
+
 		self.lead_index = random.randrange(2)
 		self.cell_by_index: dict[int, UsedCell] = {}
-		self.cell_history: list[SelectCell | FinalCell] = []
+		self.cell_history: list[SelectCell | FinalFigure] = []
 		self.counter = 0
 		super().__init__()
 
-	def user_deck(self, user_id: int):
-		if user_id == self.players[0].id: return self.decks[0]
-		if user_id == self.players[1].id: return self.decks[1]
+	def get_player(self, user_id: int):
+		if user_id == self.players[0].info.id: return self.players[0]
+		if user_id == self.players[1].info.id: return self.players[1]
 		raise ValueError(f'User with id {user_id} does not belong to this game')
 
 	def cancel(self):
@@ -115,9 +96,13 @@ class Game(Base):
 	def lead(self): return self.players[self.lead_index]
 
 	@property
-	def ended(self): return self.winner_index in range(2)
+	def winner(self):
+		for player in self.players:
+			if player.final_figure_count == 4:
+				return player
+		return None
 
 	@property
-	def ids(self): return [player.id for player in self.players]
+	def ids(self): return [player.info.id for player in self.players]
 	@property
 	def life_time(self): return 60 * 60 * 24

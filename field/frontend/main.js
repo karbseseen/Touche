@@ -111,13 +111,16 @@ function updateRender(event) {
 		var found_dot = undefined;
 		forEachChild(cell, child => { if (child.tagName == 'SPAN') found_dot = child; });
 
-
-
 		if (used_cell) {
 			const dot = found_dot ? found_dot : document.createElement('span');
 			dot.style.backgroundColor = user_color[used_cell.user_id];
-			dot.classList.add(used_cell.final ? 'final-dot' : 'dot');
-			dot.classList.remove(used_cell.final ? 'dot' : 'final-dot');
+			dot.className = '';
+			let dot_class = 'dot';
+			switch (used_cell.type) {
+				case 'sf': dot_class = 'semi-final-dot'; break;
+				case 'f': dot_class = 'final-dot'; break;
+			}
+			dot.classList.add(dot_class);
 			if (!found_dot) cell.appendChild(dot);
 		}
 		else if (found_dot) found_dot.remove();
@@ -127,9 +130,9 @@ function updateRender(event) {
 		const invalid_cell = field.children[Field.clicked_index];
 		invalid_cell.classList.add('invalid-cell');
 		setTimeout(() => invalid_cell.classList.remove('invalid-cell'), 1000);
-		Field.clicked_index = -1;
 	}
 	else State.history_size = history_size;
+	Field.clicked_index = -1;
 
 
 	const deck = document.getElementById('deck');
