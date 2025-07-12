@@ -73,7 +73,7 @@ class Request(Base):
 
 class Game(Base):
 	def __init__(self, request: Request, player2: user.Info):
-		deck_source = deck.Source()
+		deck_source = deck.Source(50)
 		self.players = [Player(info, deck_source, request.type.value.figure_types) for info in [request.user, player2]]
 		self.players[0].opponent, self.players[1].opponent = self.players[1], self.players[0]
 

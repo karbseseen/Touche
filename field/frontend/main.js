@@ -24,7 +24,8 @@ function get_text(card_index) {
 }
 
 const State = {
-	clickable: false,
+	clickable_letter: '',
+	clickable_value: false,
 	is_dark: false,
 	received_counter: -1,
 	counter: 0,
@@ -45,6 +46,22 @@ function forEachChild(element, block) {
 	const children = element.children;
 	for (let index = 0; index < children.length; index++)
 		block(children[index], index);
+}
+
+
+function setClickable(clickable) {
+	const old_value = State.clickable_value;
+	const new_value = clickable == 'all' || clickable == 'crown' && Deck.selected_index == 5;
+	State.clickable_letter = clickable;
+	State.clickable_value = new_value;
+
+	if (old_value != new_value)
+		forEachChild(
+			document.getElementById('touche-field'),
+			new_value ?
+				cell => { if (cell.classList.contains('cell')) cell.classList.add('clickable-cell') } :
+				cell => { if (cell.classList.contains('cell')) cell.classList.remove('clickable-cell') },
+		);
 }
 
 
@@ -72,7 +89,7 @@ function initRender(event) {
 		}
 
 		if (text.length > 0) cell.onclick = () => {
-			if (State.clickable || Deck.selected_index == 5) {
+			if (State.clickable_value) {
 				Field.clicked_index = index;
 				Streamlit.setComponentValue({ cell_index: index, card_index: Deck.selected_index, counter: State.counter++ });
 			}
@@ -92,6 +109,8 @@ function initRender(event) {
 			else forEachChild(deck.children[click_index], card => card.classList.add('selected-card'));
 		}
 		Deck.selected_index = click_index != Deck.selected_index ? click_index : -1;
+
+		if (Deck.selected_index == 5 || click_index == 5) setClickable(State.clickable_letter);
 	}
 	forEachChild(deck, (card_crown, index) => card_crown.onclick = card_crown_click(index));
 
@@ -126,6 +145,8 @@ function updateRender(event) {
 		}
 		else if (found_dot) found_dot.remove();
 	});
+
+	setClickable(clickable);
 
 	if (Field.updated_index != updated_cell) {
 		if (Field.updated_index > 0) field.children[Field.updated_index].classList.remove('added-cell');
@@ -172,8 +193,6 @@ function updateRender(event) {
 			update_card(cards[index] & 0xff, index);
 		}
 
-
-	State.clickable = clickable;
 
 	if (State.is_dark != is_dark) {
 		State.is_dark = is_dark;

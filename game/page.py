@@ -17,7 +17,8 @@ def _init_page(user: User):
 			st.rerun()
 	check_updates()
 
-	st.set_page_config('Новая игра', '⚔️', layout='wide')
+	st.set_page_config('Новая игра', '⚔️')
+	st.html('<style>.stMainBlockContainer { max-width: 80rem; }</style>')
 	create_col, find_col = st.columns(2)
 
 	with create_col.container(border=True):
@@ -32,7 +33,7 @@ def _init_page(user: User):
 		requests.sort(key=lambda request: request.begin_time, reverse=True)
 
 		st.header('Найти')
-		col1, col2, col3 = st.columns(3)
+		col1, col2, col3 = st.columns([3, 2, 3])
 		for request in requests:
 			col1.markdown(request.user.markdown_str(), unsafe_allow_html=True)
 			col2.write(f'**{request.type.value.symbol}**')

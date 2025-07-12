@@ -5,7 +5,7 @@ from structs.user import User
 from user_ui import user_ui
 
 
-st.set_page_config(initial_sidebar_state='collapsed', layout='centered')
+st.set_page_config(initial_sidebar_state='collapsed')
 
 user = User.safe_create()
 

@@ -1,10 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from enum import Enum, auto
-from typing import Any
+from typing import Any, Callable
 
 from util.rotate import rotate90
-from util.singleton import Singleton
 
 
 class Type(ABC):
@@ -29,13 +27,20 @@ class Type(ABC):
 				if self.contains(x, y):
 					yield x, y
 
-	def cell_figure_ids(self, cell_x: int, cell_y: int):
+	def cell_figure_ids(self, cell_index: int):
+		cell_y, cell_x = divmod(cell_index, 12)
 		x0 = max(0, cell_x + self.width - 12)
 		y0 = max(0, cell_y + self.height - 12)
 		x1 = min(self.width, cell_x + 1)
 		y1 = min(self.height, cell_y + 1)
 		for x, y in self._bounded_ids(x0, y0, x1, y1):
 			yield (cell_x - x) + (cell_y - y) * 12
+
+	def check_figure_full(self, figure_id: int, cell_available: Callable[[int], bool]):
+		for x, y in self._bounded_ids(0, 0, self.width, self.height):
+			if not cell_available(figure_id + x + y * 12):
+				return False
+		return True
 
 class RectType(Type):
 	def __init__(self, width: int, height: int): super().__init__(width, height, width * height)
@@ -81,9 +86,8 @@ class SemiFigure:
 	def is_invalid(self): return len(self._history) and not len(self._history[-1].figure_remaining)
 
 	def _possible_figures(self, cell_index: int):
-		cell_y, cell_x = divmod(cell_index, 12)
 		for type_index, type in enumerate(self.types):
-			for figure_id in type.cell_figure_ids(cell_x, cell_y):
+			for figure_id in type.cell_figure_ids(cell_index):
 				yield type, figure_id | type_index << 8
 
 	def _figure_type(self, figure_id: int): return self.types[figure_id >> 8]
@@ -107,6 +111,14 @@ class SemiFigure:
 
 	def pop_cell(self):
 		return self._history.pop().cell_index
+
+	def check_free_space(self, cell_index: int, is_cell_available: Callable[[int], bool]):
+		for figure_type, figure_id in self._possible_figures(cell_index):
+			if figure_type.check_figure_full(
+				figure_id,
+				lambda _cell_index: _cell_index == cell_index or is_cell_available(_cell_index),
+			): return True
+		return False
 		
 
 class Square(RectType):
