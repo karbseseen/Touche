@@ -12,6 +12,7 @@ const Deck = {
 const Field = {
 	FreeSpace: Deck.size,
 	clicked_index: -1,
+	updated_index: 0,
 };
 
 function get_text(card_index) {
@@ -25,8 +26,8 @@ function get_text(card_index) {
 const State = {
 	clickable: false,
 	is_dark: false,
+	received_counter: -1,
 	counter: 0,
-	history_size: -1,
 };
 
 
@@ -102,7 +103,7 @@ function initRender(event) {
 }
 
 function updateRender(event) {
-	const { used_cells, user_color, history_size, cards, clickable, is_dark } = event.detail.args;
+	const { used_cells, updated_cell, cards, clickable, update_counter, is_dark } = event.detail.args;
 
 
 	const field = document.getElementById('touche-field');
@@ -113,7 +114,7 @@ function updateRender(event) {
 
 		if (used_cell) {
 			const dot = found_dot ? found_dot : document.createElement('span');
-			dot.style.backgroundColor = user_color[used_cell.user_id];
+			dot.style.backgroundColor = used_cell.color;
 			dot.className = '';
 			let dot_class = 'dot';
 			switch (used_cell.type) {
@@ -126,12 +127,20 @@ function updateRender(event) {
 		else if (found_dot) found_dot.remove();
 	});
 
-	if (State.history_size == history_size && Field.clicked_index != -1) {
+	if (Field.updated_index != updated_cell) {
+		if (Field.updated_index > 0) field.children[Field.updated_index].classList.remove('added-cell');
+		if (Field.updated_index < 0) field.children[-Field.updated_index].classList.remove('removed-cell');
+		if (updated_cell > 0) field.children[updated_cell].classList.add('added-cell');
+		if (updated_cell < 0) field.children[-updated_cell].classList.add('removed-cell');
+		Field.updated_index = updated_cell;
+	}
+
+	if (State.received_counter == update_counter && Field.clicked_index != -1) {
 		const invalid_cell = field.children[Field.clicked_index];
 		invalid_cell.classList.add('invalid-cell');
 		setTimeout(() => invalid_cell.classList.remove('invalid-cell'), 1000);
 	}
-	else State.history_size = history_size;
+	else State.received_counter = update_counter;
 	Field.clicked_index = -1;
 
 

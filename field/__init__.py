@@ -6,6 +6,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_theme import st_theme
 
+from structs.cell import UsedCell
 from structs.game import Game
 
 
@@ -38,6 +39,13 @@ def _get_values():
 	return [parse(value) for value in values]
 
 
+class _CellSerializer:
+	def __init__(self, game: Game):
+		self.user_colors = { player.info.id: player.info.color for player in game.players }
+	def serialize(self, cell: UsedCell):
+		return { 'type': cell.type.value, 'color': self.user_colors[cell.user_id] }
+
+
 class Field:
 	_values = _get_values()
 	@classmethod
@@ -59,17 +67,18 @@ class Field:
 			callback(Event(cell_index, cls._values[cell_index], card_index))
 
 		player = game.get_player(user_id)
+		serializer = _CellSerializer(game)
 		theme = st_theme()
 		return _component(
 			key='touche-field',
 			on_change=on_change,
 
 			field_data=cls._values,
-			used_cells={ index: cell.to_dict() for index, cell in game.cell_by_index.items() },
-			user_color={ player.info.id: player.info.color for player in game.players },
-			history_size=len(game.cell_history),
+			used_cells={ index: serializer.serialize(cell) for index, cell in game.cell_by_index.items() },
+			updated_cell=game.updated_cell,
 			cards=player.deck.data,
 			clickable=user_id == game.lead.info.id and not player.figures.is_invalid and game.winner is None,
 			is_dark=theme['base'] == 'dark' if theme else False,
+			update_counter=len(game.cell_history) + player.figures.cell_num,
 			counter=game.counter,
 		)

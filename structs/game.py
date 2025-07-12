@@ -77,9 +77,10 @@ class Game(Base):
 		self.players = [Player(info, deck_source, request.type.value.figure_types) for info in [request.user, player2]]
 		self.players[0].opponent, self.players[1].opponent = self.players[1], self.players[0]
 
-		self.lead_index = random.randrange(2)
+		self.lead: Player = random.choice(self.players)
 		self.cell_by_index: dict[int, UsedCell] = {}
 		self.cell_history: list[SelectCell | FinalFigure] = []
+		self.updated_cell: int = 0
 		self.counter = 0
 		super().__init__()
 
@@ -91,9 +92,6 @@ class Game(Base):
 	def cancel(self):
 		super().cancel()
 		self.counter += 1
-
-	@property
-	def lead(self): return self.players[self.lead_index]
 
 	@property
 	def winner(self):

@@ -11,8 +11,6 @@ class UsedType(Enum):
 class UsedCell:
 	user_id: int
 	type: UsedType
-	def to_dict(self):
-		return { 'user_id': self.user_id, 'type': self.type.value }
 
 @dataclass
 class SelectCell:

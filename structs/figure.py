@@ -58,7 +58,6 @@ class CustomType(Type):
 
 @dataclass
 class SuccessResult: cell_indices: list[int]
-class InvalidResult: pass
 
 @dataclass
 class _SemiFigure:
@@ -75,7 +74,9 @@ class SemiFigure:
 		self.types = list(types)
 		self._history: list[_HistoryItem] = []
 	@property
-	def is_empty(self): return not len(self._history)
+	def cell_num(self): return len(self._history)
+	@property
+	def cell_indices(self): return [item.cell_index for item in self._history]
 	@property
 	def is_invalid(self): return len(self._history) and not len(self._history[-1].figure_remaining)
 
@@ -97,12 +98,10 @@ class SemiFigure:
 			figure_remaining.sort(key=lambda figure: figure.remaining)
 		self._history.append(_HistoryItem(cell_index, figure_remaining))
 
-		if len(figure_remaining) == 0:
-			return InvalidResult()
-		elif figure_remaining[0].remaining == 0:
-			history = self._history
+		if len(figure_remaining) != 0 and figure_remaining[0].remaining == 0:
+			cell_indices = self.cell_indices
 			self._history = []
-			return SuccessResult([item.cell_index for item in history])
+			return SuccessResult(cell_indices)
 		else:
 			return None
 
