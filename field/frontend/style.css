@@ -79,23 +79,24 @@ body {
 }
 
 .dot, .semi-final-dot, .final-dot {
-	border-radius: 50%;
-}
-.semi-final-dot, .final-dot {
-	width: 37%;
-	height: 37%;
-	animation: dot-final 0.25s;
-}
-.dot {
 	width: 40%;
 	height: 40%;
+	border-radius: 50%;
+	z-index: 1;
+}
+.dot {
 	animation: dot-in 0.2s;
 }
+.semi-final-dot, .final-dot {
+	box-sizing: border-box;
+	border: black 3px;
+	animation: dot-final 0.25s;
+}
 .semi-final-dot {
-	border: dashed black 3px;
+	border-style: dashed;
 }
 .final-dot {
-	border: solid black 3px;
+	border-style: solid;
 }
 
 
