@@ -9,12 +9,13 @@ class GameTypeValue:
 	symbol: str
 	text: str
 	figure_types: list[figure.Type]
+	figure_count: int
 
 class GameType(Enum):
-	Square = GameTypeValue('■', 'Квадраты', figure.squares)
-	Line = GameTypeValue('/', 'Линии', figure.lines)
-	Cross = GameTypeValue('⨉', 'Кресты', figure.crosses)
-	T = GameTypeValue('T', 'Букву Т', figure.ts)
+	Square = GameTypeValue('■', 'Квадраты', figure.squares, 4)
+	Line = GameTypeValue('/', 'Линии', figure.lines, 3)
+	Cross = GameTypeValue('⨉', 'Кресты', figure.crosses, 3)
+	T = GameTypeValue('T', 'Букву Т', figure.ts, 3)
 
 	@classmethod
 	def from_str(cls, value: str):

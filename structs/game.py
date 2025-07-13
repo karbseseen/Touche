@@ -77,6 +77,7 @@ class Game(Base):
 		self.players = [Player(info, deck_source, request.type.value.figure_types) for info in [request.user, player2]]
 		self.players[0].opponent, self.players[1].opponent = self.players[1], self.players[0]
 
+		self.win_figure_count = request.type.value.figure_count
 		self.lead: Player = random.choice(self.players)
 		self.cell_by_index: dict[int, UsedCell] = {}
 		self.cell_history: list[SelectCell | FinalFigure] = []
@@ -96,7 +97,7 @@ class Game(Base):
 	@property
 	def winner(self):
 		for player in self.players:
-			if player.final_figure_count == 4:
+			if player.final_figure_count == self.win_figure_count:
 				return player
 		return None
 
