@@ -27,7 +27,7 @@ class Type(ABC):
 				if self.contains(x, y):
 					yield x, y
 
-	def cell_figure_ids(self, cell_index: int):
+	def cell_figure_indices(self, cell_index: int):
 		cell_y, cell_x = divmod(cell_index, 12)
 		x0 = max(0, cell_x + self.width - 12)
 		y0 = max(0, cell_y + self.height - 12)
@@ -36,9 +36,9 @@ class Type(ABC):
 		for x, y in self._bounded_ids(x0, y0, x1, y1):
 			yield (cell_x - x) + (cell_y - y) * 12
 
-	def check_figure_full(self, figure_id: int, cell_available: Callable[[int], bool]):
+	def figure_full(self, figure_index: int, cell_available: Callable[[int], bool]):
 		for x, y in self._bounded_ids(0, 0, self.width, self.height):
-			if not cell_available(figure_id + x + y * 12):
+			if not cell_available(figure_index + x + y * 12):
 				return False
 		return True
 
@@ -87,7 +87,7 @@ class SemiFigure:
 
 	def _possible_figures(self, cell_index: int):
 		for type_index, type in enumerate(self.types):
-			for figure_id in type.cell_figure_ids(cell_index):
+			for figure_id in type.cell_figure_indices(cell_index):
 				yield type, figure_id | type_index << 8
 
 	def _figure_type(self, figure_id: int): return self.types[figure_id >> 8]
@@ -114,8 +114,8 @@ class SemiFigure:
 
 	def check_free_space(self, cell_index: int, is_cell_available: Callable[[int], bool]):
 		for figure_type, figure_id in self._possible_figures(cell_index):
-			if figure_type.check_figure_full(
-				figure_id,
+			if figure_type.figure_full(
+				figure_id & 0xff,
 				lambda _cell_index: _cell_index == cell_index or is_cell_available(_cell_index),
 			): return True
 		return False
