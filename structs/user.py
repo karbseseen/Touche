@@ -3,11 +3,14 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from time import time
 from weakref import WeakValueDictionary
+
+import streamlit as st
 from streamlit_cookies_controller import CookieController
+
+from .lang import Langs, Lang
 
 
 class Info:
-	test = -1
 	by_id: WeakValueDictionary[int, Info] = WeakValueDictionary()
 	def __init__(self, id: int, name: str, color: str):
 		self.id = id
@@ -40,6 +43,13 @@ class User:
 		if not self._info:
 			self._info = Info(self._id, self._cookies.get('user_name'), self._cookies.get('user_color'))
 
+		lang_id = self._cookies.get('user_lang')
+		if not isinstance(lang_id, str):
+			lang_id = st.context.locale
+			if isinstance(lang_id, str):
+				lang_id = lang_id.split('-')[0]
+		self._lang = Langs[lang_id]
+
 	@property
 	def _expires(self): return datetime.now() + timedelta(365)
 
@@ -62,3 +72,10 @@ class User:
 	def color(self, color: str):
 		self._info.color = color
 		self._cookies.set('user_color', color, expires=self._expires)
+
+	@property
+	def lang(self): return self._lang
+	@lang.setter
+	def lang(self, lang: Lang):
+		self._lang = lang
+		self._cookies.set('user_lang', lang.id, expires=self._expires)

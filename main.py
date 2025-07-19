@@ -9,11 +9,5 @@ st.set_page_config(initial_sidebar_state='collapsed')
 
 user = User.safe_create()
 
-
-def _reborn():
-	user.name = ''
-	user.color = User.default_color
-
 if user and user_ui(user):
-	st.sidebar.button('Переродиться', on_click=_reborn)
 	game_page(user)
