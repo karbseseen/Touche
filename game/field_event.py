@@ -65,9 +65,10 @@ def can_undo(user_id: int, game: Game):
 	return _move_to_undo_index(user_id, game) is not None
 
 def undo(user_id: int, game: Game):
+	move_index = _move_to_undo_index(user_id, game)
+	if move_index is None: return
 	game.counter += 1
 	player = game.get_player(user_id)
-	move_index = _move_to_undo_index(user_id, game)
 
 	if move_index == _SemiFigure:
 		cell_index = player.figures.pop_cell()
