@@ -14,7 +14,13 @@ class Lang:
 
 def _get_from_default(lang: Lang, key: str):
 	value = lang.data.get(key, None)
-	return value if value else _get_from_default(lang.default, key)
+	#return value if value else _get_from_default(lang.default, key)
+	if not value:
+		try:
+			value = _get_from_default(lang.default, key)
+		except:
+			value = key
+	return value
 
 
 def _read():

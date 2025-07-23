@@ -43,16 +43,16 @@ def user_ui(user: User):
 		col,_ = st.columns([1,2])
 		with col: lang_select()
 		st.header(user.lang['who_are_you'])
-		user_name = st.text_input('Как вас зовут?', max_chars=32, placeholder='Мечислав Гриб')
+		user_name = st.text_input(user.lang['whats_your_name'], max_chars=32, placeholder=user.lang['name_placeholder'])
 		if user_name:
 			st.button('Сохранить', on_click=lambda: update_name(user_name))
 	else:
 		col1, col2 = st.sidebar.columns([3,1])
 		col1.text_input(
-			'Как вас зовут?',
+			user.lang['whats_your_name'],
 			user.name,
 			max_chars=32,
-			placeholder='Мечислав Гриб',
+			placeholder=user.lang['name_placeholder'],
 			key='user_name',
 			on_change=update_name,
 		)
@@ -63,9 +63,9 @@ def user_ui(user: User):
 			key='user_color',
 			on_change=update_color,
 		)
-		st.sidebar.markdown('Ваше имя будет выглядеть так: ' + user.info.markdown_str(2), unsafe_allow_html=True)
+		st.sidebar.markdown(user.lang['confirm_name'] + user.info.markdown_str(2), unsafe_allow_html=True)
 		st.sidebar.markdown('##')
-		st.sidebar.button('Переродиться', on_click=reborn)
+		st.sidebar.button(user.lang['reborn'], on_click=reborn)
 		with st.sidebar: lang_select()
 
 	return bool(user.name)

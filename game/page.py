@@ -17,27 +17,33 @@ def _init_page(user: User):
 			st.rerun()
 	check_updates()
 
-	st.set_page_config('Новая игра', '⚔️')
+	st.set_page_config(user.lang['new_game'], '⚔️')
 	st.html('<style>.stMainBlockContainer { max-width: 80rem; }</style>')
 	create_col, find_col = st.columns(2)
 
 	with create_col.container(border=True):
-		st.header('Создать')
-		game_type = st.selectbox('Собираем:', [type.value.text for type in GameType], None, placeholder='Хуи')
-		if game_type:
-			st.button('Найти жертву', icon='⚔️',
-				on_click=lambda: Request(user.info, GameType.from_str(game_type)))
+		st.header(user.lang['create'])
+		type_index = st.selectbox(
+			label=user.lang['create_figure'],
+			options=range(len(GameType.all)),
+			format_func=lambda index: user.lang[GameType.all[index].lang_key],
+			index=None,
+			placeholder=user.lang['figure_placeholder'],
+		)
+		if type_index:
+			st.button(user.lang['find_victim'], icon='⚔️',
+				on_click=lambda: Request(user.info, GameType.all[type_index]))
 
 	with find_col.container(border=True):
 		requests = [base for base in GameBase.by_user.values() if isinstance(base, Request)]
 		requests.sort(key=lambda request: request.begin_time, reverse=True)
 
-		st.header('Найти')
+		st.header(user.lang['find'])
 		col1, col2, col3 = st.columns([3, 2, 3])
 		for request in requests:
 			col1.markdown(request.user.markdown_str(), unsafe_allow_html=True)
 			col2.write(f'**{request.type.value.symbol}**')
-			col3.button('Погнали', on_click=lambda: Game(request, user.info))
+			col3.button(user.lang['start_game'], on_click=lambda: Game(request, user.info))
 
 
 def _waiting_page(user: User, request: Request):
@@ -51,15 +57,15 @@ def _waiting_page(user: User, request: Request):
 			st.rerun()
 	check_updates()
 
-	st.set_page_config('Ищем соперника', '⏳')
-	st.header('Ищем соперника...')
+	st.set_page_config(user.lang['find_opponent'], '⏳')
+	st.header(user.lang['find_opponent'])
 
 	url = 'https://lottie.host/embed/4d476f8d-4494-4e16-937f-96fd2e859ba4/tp9IqZ9iEj.lottie'
 	div_style = 'width: 100%; text-align: center;'
 	embed_style = 'width: 65%; aspect-ratio : 1 / 1;'
 	st.markdown(f'<div style="{div_style}"><embed src="{url}" style="{embed_style}"></div>', unsafe_allow_html=True)
 
-	st.button('Я передумал', on_click=request.cancel)
+	st.button(user.lang['take_it_back'], on_click=request.cancel)
 
 
 def _game_page(user: User, game: Game):
@@ -77,16 +83,16 @@ def _game_page(user: User, game: Game):
 	if winner:
 		is_winner = winner.info.id == user.id
 		rain('🏆' if is_winner else '💩')
-		st.header('Вы чемпион!' if is_winner else 'Вы продули :(')
+		st.header(user.lang['winner'] if is_winner else user.lang['loser'])
 	else:
 		st.markdown(
-			'<span style="font-size:2rem">Ходит </span>' + game.lead.info.markdown_str(2),
+			f'<span style="font-size:2rem">{user.lang['leads']} </span>{game.lead.info.markdown_str(2)}',
 			unsafe_allow_html=True,
 		)
 
 	player = game.get_player(user.id)
 	if player.figures.is_invalid:
-		st.error('Поздравляю, вы собрали какую-то хрень. Вам остается только отменять ходы и пробовать заново.')
+		st.error(user.lang['needs_polish'])
 
 	Field.component(
 		user.id,
@@ -95,8 +101,8 @@ def _game_page(user: User, game: Game):
 	)
 
 	if field_event.can_undo(user.id, game):
-		st.button('Отмена хода', on_click=lambda: field_event.undo(user.id, game))
-	st.button('Уйти', on_click=game.cancel)
+		st.button(user.lang['undo_move'], on_click=lambda: field_event.undo(user.id, game))
+	st.button(user.lang['quit'], on_click=game.cancel)
 
 
 def page(user: User):

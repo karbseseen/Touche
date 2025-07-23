@@ -6,10 +6,11 @@ who_are_you,,Ты кто такой?,,Kes sa oled?,Kuka sinä olet?,Хто ти 
 whats_your_name,"Name yourself, hero of the shape arena!","Назовись, герой фигурной арены!",,"Nimeta end, figuuriareenilane kangelane!","Nimeä itsesi, kuvioareenan sankari!","Назви себе, герою арени фігур!","Nenne dich, Held der Formen-Arena!"
 name_placeholder,Mechislav Hryb,Мечислав Гриб,,Mehislaav Seen,Metsislav Sieni,Мечислав Гриб,Mechislaw Pilz
 lock_in_choice,Locking it in before you change your mind.,"Фиксирую, пока ты не передумал.",,"Lukustan enne, kui ümber mõtled.",Lukitsen sen ennen kuin muutat mielesi.,"Фіксую, поки ти не передумав.","Ich bestätige es, bevor du es dir anders überlegst."
-confirm_name_prompt,You sure that’s the name you want to go with?,"Ты точно хочешь, чтобы тебя звали именно так?",,"Kas oled kindel, et just sellist nime tahad?","Oletko varma, että haluat juuri tämän nimen?","Ти точно хочеш, щоб тебе так називали?","Bist du sicher, dass du wirklich so heißen willst?"
+confirm_name,You sure that’s the name you want to go with?,"Ты точно хочешь, чтобы тебя звали именно так?",,"Kas oled kindel, et just sellist nime tahad?","Oletko varma, että haluat juuri tämän nimen?","Ти точно хочеш, щоб тебе так називали?","Bist du sicher, dass du wirklich so heißen willst?"
 new_game,,Новая игра,,Uus mäng,Uusi peli,Нова гра,Neues Spiel
 create,,Создать,,Loo,Luo,Створити,Erstellen
-create_legendary_shape,Let’s create the figure of the century!,Сотворим фигуру века!,,Loome sajandi kujundi!,Luodaan vuosisadan kuvio!,Створимо фігуру століття!,Erschaffen wir die Figur des Jahrhunderts!
+create_figure,,,,,,,
+figure_placeholder,Let’s create the figure of the century!,Сотворим фигуру века!,,Loome sajandi kujundi!,Luodaan vuosisadan kuvio!,Створимо фігуру століття!,Erschaffen wir die Figur des Jahrhunderts!
 square,Squares,Квадраты,,Ruudud,Neliöt,Квадрати,Quadrate
 line,Lines,Линии,,Jooned,Viivat,Лінії,Linien
 cross,Crosses,Кресты,,Ristid,Ristit,Хрести,Kreuze
@@ -26,3 +27,4 @@ needs_polish,Well… almost a masterpiece. Just needs a little polish.,"Ну, п
 undo_move,"Okay, taking back the words (and the shapes).","Окей, берём слова (и фигуры) назад.",,"Okei, võtame sõnad (ja kujundid) tagasi.","Okei, otetaan sanat (ja kuviot) takaisin.","Гаразд, забираємо слова (і фігури) назад.","Okay, wir nehmen die Worte (und die Formen) zurück."
 quit,Leave,Уйти,,Lahku,Poistu,Вийти,Verlassen
 game_intro,"Welcome! Where lines twist, crosses deceive, and the letter T plays by no rules.","Добро пожаловать! Где линии кривые, кресты коварны, а буква Т вообще без правил.",,"Tere tulemast! Siin on jooned kõverad, ristid salakavalad ja T-täht täiesti kontrollimatu.","Tervetuloa! Täällä viivat mutkittelevat, ristit pettävät ja kirjain T pelaa omilla säännöillään.","Ласкаво просимо! Тут лінії звиваються, хрести підступні, а літера Т взагалі без правил.","Willkommen! Wo Linien sich winden, Kreuze täuschen und der Buchstabe T ohne Regeln spielt." a
+leads,,Ходит,,,,,
