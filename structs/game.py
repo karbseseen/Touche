@@ -7,7 +7,7 @@ from time import time
 from . import deck, figure, user
 from .cell import UsedCell, SelectCell, FinalFigure
 from .deck import Deck
-from .game_type import GameType
+from .game_type import GameTypeValue
 
 
 class Player:
@@ -60,7 +60,7 @@ class Base(ABC):
 
 
 class Request(Base):
-	def __init__(self, user: user.Info, type: GameType):
+	def __init__(self, user: user.Info, type: GameTypeValue):
 		self.user = user
 		self.type = type
 		super().__init__()
@@ -74,10 +74,10 @@ class Request(Base):
 class Game(Base):
 	def __init__(self, request: Request, player2: user.Info):
 		deck_source = deck.Source()
-		self.players = [Player(info, deck_source, request.type.value.figure_types) for info in [request.user, player2]]
+		self.players = [Player(info, deck_source, request.type.figure_types) for info in [request.user, player2]]
 		self.players[0].opponent, self.players[1].opponent = self.players[1], self.players[0]
 
-		self.win_figure_count = request.type.value.figure_count
+		self.win_figure_count = request.type.figure_count
 		self.lead: Player = random.choice(self.players)
 		self.cell_by_index: dict[int, UsedCell] = {}
 		self.cell_history: list[SelectCell | FinalFigure] = []

@@ -30,7 +30,7 @@ def _init_page(user: User):
 			index=None,
 			placeholder=user.lang['figure_placeholder'],
 		)
-		if type_index:
+		if isinstance(type_index, int):
 			st.button(user.lang['find_victim'], icon='⚔️',
 				on_click=lambda: Request(user.info, GameType.all[type_index]))
 
@@ -42,7 +42,7 @@ def _init_page(user: User):
 		col1, col2, col3 = st.columns([3, 2, 3])
 		for request in requests:
 			col1.markdown(request.user.markdown_str(), unsafe_allow_html=True)
-			col2.write(f'**{request.type.value.symbol}**')
+			col2.write(f'**{request.type.symbol}**')
 			col3.button(user.lang['start_game'], on_click=lambda: Game(request, user.info))
 
 
