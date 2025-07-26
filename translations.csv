@@ -1,12 +1,12 @@
 _id,en,ru,ru-bad,et,fi,uk,de
-_name,English,Русский,Русский сквернословный,Эстонский,Финский,Украинский,Немецкий
+_name,English,Русский,Русский сквернословный,Eesti,Suomi,Українська,Deutsch
 _default,,,ru,,,,
 reborn,,Переродиться,,Sündi uuesti,Syntyä uudelleen,Переродитися,Wiedergeboren werden
 who_are_you,,Ты кто такой?,,Kes sa oled?,Kuka sinä olet?,Хто ти такий?,Wer bist du?
 whats_your_name,"Name yourself, hero of the shape arena!","Назовись, герой фигурной арены!",,"Nimeta end, figuuriareenilane kangelane!","Nimeä itsesi, kuvioareenan sankari!","Назви себе, герою арени фігур!","Nenne dich, Held der Formen-Arena!"
 name_placeholder,Mechislav Hryb,Мечислав Гриб,,Mehislaav Seen,Metsislav Sieni,Мечислав Гриб,Mechislaw Pilz
 lock_in_choice,Locking it in before you change your mind.,"Фиксирую, пока ты не передумал.",,"Lukustan enne, kui ümber mõtled.",Lukitsen sen ennen kuin muutat mielesi.,"Фіксую, поки ти не передумав.","Ich bestätige es, bevor du es dir anders überlegst."
-confirm_name,You sure that’s the name you want to go with?,"Ты точно хочешь, чтобы тебя звали именно так?",,"Kas oled kindel, et just sellist nime tahad?","Oletko varma, että haluat juuri tämän nimen?","Ти точно хочеш, щоб тебе так називали?","Bist du sicher, dass du wirklich so heißen willst?"
+confirm_name,Your name will look like this,"Твоё имя будет выглядеть так",,"Sinu nimi näeb välja selline","Nimesi näyttää tältä","Твоє їм'я буде виглядатиме так","Dein Name wird so aussehen"
 new_game,,Новая игра,,Uus mäng,Uusi peli,Нова гра,Neues Spiel
 create,,Создать,,Loo,Luo,Створити,Erstellen
 create_figure,,,,,,,
@@ -24,7 +24,7 @@ take_it_back,I changed my mind,Я передумал,,Ma muutsin meelt,Muutin mi
 winner,You are the champion!,Вы чемпион!,,Sina oled meister!,Olet mestari!,Ви чемпіон!,Du bist der Champion!
 loser,You lost :(,Вы продули :(,,Kaotasite :(,Hävisitte :(,Ви продули :(,Ihr habt verloren :(
 needs_polish,Well… almost a masterpiece. Just needs a little polish.,"Ну, почти шедевр. Осталось чуть-чуть подправить","Поздравляю, вы собрали какую-то хрень.",Peaaegu meistriteos. Vaja veel veidi sättida.,"No, melkein mestariteos. Vain pieni säätö puuttuu.","Ну, майже шедевр. Залишилось трохи підправити.",Fast ein Meisterwerk. Nur noch ein bisschen Feinschliff.
-undo_move,"Okay, taking back the words (and the shapes).","Окей, берём слова (и фигуры) назад.",,"Okei, võtame sõnad (ja kujundid) tagasi.","Okei, otetaan sanat (ja kuviot) takaisin.","Гаразд, забираємо слова (і фігури) назад.","Okay, wir nehmen die Worte (und die Formen) zurück."
+undo_move,"Undo move.","Отмена хода.",,"Käigu tühistamine.","Siirron peruutus.","Скасування ходу.","Zug rückgängig machen."
 quit,Leave,Уйти,,Lahku,Poistu,Вийти,Verlassen
 game_intro,"Welcome! Where lines twist, crosses deceive, and the letter T plays by no rules.","Добро пожаловать! Где линии кривые, кресты коварны, а буква Т вообще без правил.",,"Tere tulemast! Siin on jooned kõverad, ristid salakavalad ja T-täht täiesti kontrollimatu.","Tervetuloa! Täällä viivat mutkittelevat, ristit pettävät ja kirjain T pelaa omilla säännöillään.","Ласкаво просимо! Тут лінії звиваються, хрести підступні, а літера Т взагалі без правил.","Willkommen! Wo Linien sich winden, Kreuze täuschen und der Buchstabe T ohne Regeln spielt." a
 leads,,Ходит,,,,,
