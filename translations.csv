@@ -1,7 +1,7 @@
 _id,en,ru,ru-bad,et,fi,uk,de
 _name,English,Русский,Русский сквернословный,Eesti,Suomi,Українська,Deutsch
 _default,,,ru,,,,
-restart,Restart,Начать заново,,Alusta uuesti,Aloita alusta,Почати спочатку,Neu starten
+reborn,Restart,Начать заново,,Alusta uuesti,Aloita alusta,Почати спочатку,Neu starten
 who_are_you,Who are you?,Ты кто такой?,,Kes sa oled?,Kuka sinä olet?,Хто ти такий?,Wer bist du?
 whats_your_name,Enter your name,Введи своё имя,,Sisesta oma nimi,Syötä nimesi,Введи своє їм'я,Gib deinen Namen ein
 name_placeholder,Mechislav Hryb,Мечислав Гриб,,Mehislaav Seen,Metsislav Sieni,Мечислав Гриб,Mechislaw Pilz
