@@ -9,12 +9,12 @@ lock_in_choice,Confirm,Подтвердить,,Kinnita,Vahvista,Підтверд
 confirm_name,Your name will look like this,Твоё имя будет выглядеть так,,Sinu nimi näeb välja selline,Nimesi näyttää tältä,Твоє їм'я буде виглядатиме так,Dein Name wird so aussehen
 new_game,New Game,Новая игра,,Uus mäng,Uusi peli,Нова гра,Neues Spiel
 create,Create,Создать,,Loo,Luo,Створити,Erstellen 
-create_figure,Assembling the figure,Собираем фигуру,,Kogume kujundi,Kokoamme kuvion,Збираємо фігуру,Wir bauen die Figur
+create_figure,Assembling the figure,Собираем фигуру,,Koostame kujundi,Kokoamme muodon,Збираємо фігуру,Wir setzen die Form zusammen
 square,Squares,Квадраты,,Ruudud,Neliöt,Квадрати,Quadrate
 line,Lines,Линии,,Jooned,Viivat,Лінії,Linien
 cross,Crosses,Кресты,,Ristid,Ristit,Хрести,Kreuze
-letter_t,The letter T,Букву Т,,T-täht,T-kirjain,Буква Т,Der Buchstabe T
-collecting,Assembling,Собираем,,Kogume,Kootaan,Збираємо,Wir sammeln
+letter_t,The letter T,Букву Т,,Täht T,T-kirjain,Буква Т,Buchstabe T
+collecting,Assembling,Собираем,,Paneme kokku,Kokoammen,Збираємо,Wir setzen zusammen
 find_victim,Find a victim,Найти жертву,,Leia ohver,Etsi uhri,Знайти жертву,Finde ein Opfer
 find,Find,Найти,,Otsi,Etsi,Знайти,Suchen
 start_game,Let’s go,Погнали!,,Lähme!,Mennään!,Погнали!,Los geht’s!
@@ -22,9 +22,9 @@ find_opponent,Who dares challenge you?,Кто рискнёт бросить те
 take_it_back,I’ve changed my mind,Я передумал,,Ma muutsin meelt,Muutin mieleni,Я передумав,Ich habe es mir anders überlegt
 winner,You are the champion!,Вы чемпион!,,Sina oled meister!,Olet mestari!,Ви чемпіон!,Du bist der Champion!
 loser,You lost :(,Вы продули :(,,Sa kaotasid :(,Hävisit :(,Ви програли :(,Du hast verloren :(
-needs_polish,The figure is assembled incorrectly. Try again!,Фигура собрана неправильно. Переделывай!,"Поздравляю, вы собрали какую-то хрень.",Kujund on valesti kokku pandud. Proovi uuesti!,Kuvio on koottu väärin. Yritä uudelleen!,Фігура зібрана неправильно. Переробляй!,Die Figur ist falsch zusammengesetzt. Versuch es noch einmal!
-undo_move,Undo move,Отмена хода,,Käigu tühistamine,Siirron peruutus,Скасування ходу,Zug rückgängig
+needs_polish,The figure is assembled incorrectly. Try again!,Фигура собрана неправильно. Переделывай!,"Поздравляю, вы собрали какую-то хрень.",Kujund on valesti koostatud. Proovi uuesti!,Kuvio on koottu väärin. Yritä uudestaan!,Фігура зібрана неправильно. Переробляй!,Die Form ist falsch zusammengesetzt. Versuch’s noch mal!
+undo_move,Undo move,Отмена хода,,Tühista käik,Kumoa siirto,Скасування ходу,Zug rückgängig
 quit,Leave,Уйти,,Välju,Poistu,Вийти,Verlassen
 game_intro,Welcome to the game!,Добро пожаловать в игру!,,Tere tulemast mängu!,Tervetuloa peliin!,Ласкаво просимо в ігру!,Willkommen im Spiel!
-figure_placeholder,Assembling the figure,Собираем фигуру,,Kogume kujundi,Kokoamme kuvion,Збираємо фігуру,Wir bauen die Figur
+figure_placeholder,Choose a figure,Выберите фигуру,,Vali kujund,Valitse muoto,Виберіть фігуру,Wähle eine Form
 leads,Player’s turn,Ход игрока,,Mängija kord,Pelaajan vuoro,Хід гравця,Spieler am Zug 
