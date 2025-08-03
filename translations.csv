@@ -26,5 +26,5 @@ needs_polish,The figure is assembled incorrectly. Try again!,Фигура соб
 undo_move,Undo move,Отмена хода,,Tühista käik,Kumoa siirto,Скасування ходу,Zug rückgängig
 quit,Leave,Уйти,,Välju,Poistu,Вийти,Verlassen
 game_intro,Welcome to the game!,Добро пожаловать в игру!,,Tere tulemast mängu!,Tervetuloa peliin!,Ласкаво просимо в ігру!,Willkommen im Spiel!
-figure_placeholder,Choose a figure,Выберите фигуру,,Vali kujund,Valitse muoto,Виберіть фігуру,Wähle eine Form
+figure_placeholder,Choose a figure,Выберите фигуру,,Vali kujund,Valitse muoto,Оберіть фігуру,Wähle eine Form
 leads,Player’s turn,Ход игрока,,Mängija kord,Pelaajan vuoro,Хід гравця,Spieler am Zug 
