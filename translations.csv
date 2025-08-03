@@ -8,14 +8,12 @@ name_placeholder,Mechislav Hryb,Мечислав Гриб,,Mehislaav Seen,Metsis
 lock_in_choice,Confirm,Подтвердить,,Kinnita,Vahvista,Підтвердити,Bestätigen
 confirm_name,Your name will look like this,Твоё имя будет выглядеть так,,Sinu nimi näeb välja selline,Nimesi näyttää tältä,Твоє їм'я буде виглядатиме так,Dein Name wird so aussehen
 new_game,New Game,Новая игра,,Uus mäng,Uusi peli,Нова гра,Neues Spiel
-create,Create,Создать,,Loo,Luo,Створити,Erstellen
-create_figure,,,,,,, 
-figure_placeholder,Assembling the figure,Собираем фигуру,,Kogume kujundi,Kokoamme kuvion,Збираємо фігуру,Wir bauen die Figur
+create,Create,Создать,,Loo,Luo,Створити,Erstellen 
+create_figure,Assembling the figure,Собираем фигуру,,Kogume kujundi,Kokoamme kuvion,Збираємо фігуру,Wir bauen die Figur
 square,Squares,Квадраты,,Ruudud,Neliöt,Квадрати,Quadrate
 line,Lines,Линии,,Jooned,Viivat,Лінії,Linien
 cross,Crosses,Кресты,,Ristid,Ristit,Хрести,Kreuze
 letter_t,The letter T,Букву Т,,T-täht,T-kirjain,Буква Т,Der Buchstabe T
-nom,,,,,,,
 collecting,Assembling,Собираем,,Kogume,Kootaan,Збираємо,Wir sammeln
 find_victim,Find a victim,Найти жертву,,Leia ohver,Etsi uhri,Знайти жертву,Finde ein Opfer
 find,Find,Найти,,Otsi,Etsi,Знайти,Suchen
