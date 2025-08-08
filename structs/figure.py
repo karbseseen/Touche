@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from util.FigureBase import FigureBase
 from util.rotate import rotate90
 
 
-class Type(ABC):
+class Type(FigureBase, ABC):
 	def __init__(self, width: int, height: int, square: int | None = None):
-		self.width = width
-		self.height = height
+		super().__init__(width, height)
 		if isinstance(square, int):
 			self.square = square
 		else:
@@ -17,9 +17,6 @@ class Type(ABC):
 				for y in range(self.height):
 					if self.contains(x, y):
 						self.square += 1
-
-	@abstractmethod
-	def contains(self, x: int, y: int) -> bool: pass
 
 	def _bounded_ids(self, x0: int, y0: int, x1: int, y1: int):
 		for x in range(x0, x1):

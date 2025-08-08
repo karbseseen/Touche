@@ -2,3 +2,4 @@ streamlit
 streamlit_cookies_controller
 st-theme
 streamlit-extras
+lxml

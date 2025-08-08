@@ -104,6 +104,10 @@ def _game_page(user: User, game: Game):
 		st.button(user.lang['undo_move'], on_click=lambda: field_event.undo(user.id, game))
 	st.button(user.lang['quit'], on_click=game.cancel)
 
+	if not winner:
+		with st.expander('Current figure:', expanded=True):
+			st.markdown(f'<div style="margin: 0 35% 25px 40%">{game.type.svg}</div>', unsafe_allow_html=True)
+
 
 def page(user: User):
 	base = GameBase.by_user.get(user.id)

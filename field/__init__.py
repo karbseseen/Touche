@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
@@ -6,8 +6,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_theme import st_theme
 
-from structs.cell import UsedCell
-from structs.game import Game, Player
+from structs.game import Game
 
 
 @dataclass
