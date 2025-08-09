@@ -1,4 +1,4 @@
-_id,en,ru,ru-bad,et,fi,uk,de
+f,  _id,en,ru,ru-bad,et,fi,uk,de
 _name,English,Русский,Русский сквернословный,Eesti,Suomi,Українська,Deutsch
 _default,,,ru,,,,
 reborn,Restart,Начать заново,,Alusta uuesti,Aloita alusta,Почати спочатку,Neu starten
@@ -28,5 +28,5 @@ quit,Leave,Уйти,,Välju,Poistu,Вийти,Verlassen
 game_intro,Welcome to the game!,Добро пожаловать в игру!,,Tere tulemast mängu!,Tervetuloa peliin!,Ласкаво просимо в ігру!,Willkommen im Spiel!
 figure_placeholder,Choose a figure,Выберите фигуру,,Vali kujund,Valitse muoto,Оберіть фігуру,Wähle eine Form
 leads,Player’s turn,Ход игрока,,Mängija kord,Pelaajan vuoro,Хід гравця,Spieler am Zug 
-save,Save,Сохранить,Salvesta,Tallenna,Зберегти,Speichern
-current_figure,Current figure,Текущая фигура,Praegune kujund,Nykyinen kuvio,Aktuelle Form
+save,Save,Сохранить,,Salvesta,Tallenna,Зберегти,Speichern
+current_figure,Current figure,Текущая фигура,,Praegune kujund,Nykyinen kuvio,Поточна фігура,Aktuelle Form
